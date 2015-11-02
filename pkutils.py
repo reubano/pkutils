@@ -5,12 +5,12 @@
 pkutils
 ~~~~~~~
 
-Provides methods for interacting with a CKAN instance
+Provides methods that simplify python module packaging.
 
 Examples:
-    literal blocks::
+    parse requirements file::
 
-        python example_google.py
+        requirements = list(parse_requirements('requirements.txt'))
 
 Attributes:
     LICENSES (dict): available python license classifiers.
