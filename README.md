@@ -2,7 +2,7 @@
 
 ## Introduction
 
-pkutils is a [Python library](#library) that simplifies python module packaging.
+pkutils is a Python library that simplifies python module packaging.
 
 With pkutils, you can
 
@@ -29,11 +29,7 @@ pkutils requires the following in order to run properly:
 
 ## Usage
 
-pkutils is intended to be used directly from Python.
-
-### Examples
-
-*Usage in `setup.py`*
+`cat setup.py`
 
 ```python
 import pkutils
