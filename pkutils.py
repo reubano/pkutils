@@ -13,7 +13,7 @@ Examples:
         python example_google.py
 
 Attributes:
-    CKAN_KEYS (List[str]): available CKAN keyword arguments.
+    LICENSES (dict): available python license classifiers.
 """
 
 from __future__ import (
