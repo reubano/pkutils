@@ -31,8 +31,8 @@ setup(
     zip_safe=False,
     keywords=pkutils.__title__,
     classifiers=[
+        pkutils.LICENSES[license],
         'Development Status :: 4 - Beta',
-        'License :: OSI Approved :: %s' % pkutils.LICENSES[license],
         'Natural Language :: English',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',

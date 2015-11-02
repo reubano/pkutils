@@ -13,7 +13,7 @@ Examples:
         python example_google.py
 
 Attributes:
-    CKAN_KEYS (List[str]): available CKAN keyword arguments.
+    LICENSES (dict): available python license classifiers.
 """
 
 from __future__ import (
@@ -24,7 +24,7 @@ import re
 
 from os import path as p
 
-__version__ = '0.5.0'
+__version__ = '0.6.0'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
@@ -34,9 +34,9 @@ __license__ = 'MIT'
 __copyright__ = 'Copyright 2015 Reuben Cummings'
 
 LICENSES = {
-    'GPL': 'GNU General Public License (GPL)',
-    'MIT': 'MIT License',
-    'BSD': 'BSD License',
+    'GPL': 'License :: OSI Approved :: GNU General Public License (GPL)',
+    'MIT': 'License :: OSI Approved :: MIT License',
+    'BSD': 'License :: OSI Approved :: BSD License',
 }
 
 
