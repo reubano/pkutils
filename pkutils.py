@@ -34,9 +34,9 @@ __license__ = 'MIT'
 __copyright__ = 'Copyright 2015 Reuben Cummings'
 
 LICENSES = {
-    'GPL': 'GNU General Public License (GPL)',
-    'MIT': 'MIT License',
-    'BSD': 'BSD License',
+    'GPL': 'License :: OSI Approved :: GNU General Public License (GPL)',
+    'MIT': 'License :: OSI Approved :: MIT License',
+    'BSD': 'License :: OSI Approved :: BSD License',
 }
 
 

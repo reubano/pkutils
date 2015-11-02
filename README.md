@@ -54,7 +54,7 @@ setup(
     tests_require=dev_requirements,
     dependency_links=dependencies,
     classifiers=[
-        'License :: OSI Approved :: %s' % pkutils.LICENSES['MIT'],
+        pkutils.LICENSES['MIT'],
         ...
     ],
     ...
