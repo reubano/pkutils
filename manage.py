@@ -8,8 +8,14 @@ from __future__ import (
     unicode_literals)
 
 from os import path as p
-from manager import Manager
 from subprocess import call
+
+from future.builtins import *
+from future.builtins.disabled import *
+from future import standard_library
+standard_library.install_aliases()
+
+from manager import Manager
 
 manager = Manager()
 _basedir = p.dirname(__file__)
@@ -33,9 +39,10 @@ def check():
 def lint(where=None, strict=False):
     """Check style with linters"""
     call(['flake8', where] if where else 'flake8')
+    args = 'pylint --rcfile=tests/standard.rc -rn -fparseable pkutils'
+    call(args.split(' ') + ['--py3k'])
 
     if strict:
-        args = 'pylint --rcfile=tests/standard.rc -rn -fparseable pkutils'
         call(args.split(' '))
 
 
@@ -61,6 +68,12 @@ def test(where=None, stop=False):
     opts = '-xv' if stop else '-v'
     opts += 'w %s' % where if where else ''
     call([p.join(_basedir, 'helpers', 'test'), opts])
+
+
+@manager.command
+def tox():
+    """Run tests on every Python version with tox"""
+    call('tox')
 
 
 @manager.command

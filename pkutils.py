@@ -22,6 +22,11 @@ from __future__ import (
 
 import re
 
+from future.builtins import *
+from future.builtins.disabled import *
+from future import standard_library
+standard_library.install_aliases()
+
 from os import path as p
 
 __version__ = '0.6.2'
@@ -54,7 +59,7 @@ def read(filename):
         u'pkutils: a Python packaging library'
     """
     try:
-        with open(filename) as f:
+        with open(filename, encoding='utf-8') as f:
             return f.read()
     except IOError:
         return ''
@@ -72,10 +77,10 @@ def parse_requirements(filename, dep=False):
 
     Examples:
         >>> parse_requirements('dev-requirements.txt').next()
-        'wheel==0.22.0'
+        u'future==0.15.2'
     """
     try:
-        with open(filename) as f:
+        with open(filename, encoding='utf-8') as f:
             for line in f:
                 candidate = line.strip()
 
