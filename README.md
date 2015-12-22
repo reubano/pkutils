@@ -25,7 +25,7 @@ pkutils requires the following in order to run properly:
 
 (You are using a [virtualenv](http://www.virtualenv.org/en/latest/index.html), right?)
 
-     sudo pip install pkutils
+    sudo pip install pkutils
 
 ## Usage
 
