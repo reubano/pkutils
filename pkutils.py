@@ -28,7 +28,7 @@ __version__ = '0.6.1'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
-__description__ = 'Python Packing utility library'
+__description__ = 'Python packaging utility library'
 __email__ = 'reubano@gmail.com'
 __license__ = 'MIT'
 __copyright__ = 'Copyright 2015 Reuben Cummings'
