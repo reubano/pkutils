@@ -18,26 +18,31 @@ _basedir = p.dirname(__file__)
 @manager.command
 def clean():
     """Remove Python file and build artifacts"""
-    call(p.join(_basedir, 'helpers', 'clean'), shell=True)
+    call(p.join(_basedir, 'helpers', 'clean'))
 
 
 @manager.command
 def check():
     """Check staged changes for lint errors"""
-    call(p.join(_basedir, 'helpers', 'check-stage'), shell=True)
+    call(p.join(_basedir, 'helpers', 'check-stage'))
 
 
 @manager.arg('where', 'w', help='Modules to check')
+@manager.arg('strict', 's', help='Check with pylint')
 @manager.command
-def lint(where=None):
-    """Check style with flake8"""
-    call('flake8 %s' % (where if where else ''), shell=True)
+def lint(where=None, strict=False):
+    """Check style with linters"""
+    call(['flake8', where] if where else 'flake8')
+
+    if strict:
+        args = 'pylint --rcfile=tests/standard.rc -rn -fparseable pkutils'
+        call(args.split(' '))
 
 
 @manager.command
 def pipme():
     """Install requirements.txt"""
-    call('pip install -r requirements.txt', shell=True)
+    call('pip install -r requirements.txt'.split(' '))
 
 
 @manager.command
@@ -88,13 +93,13 @@ def upload():
 @manager.command
 def sdist():
     """Create a source distribution package"""
-    call(p.join(_basedir, 'helpers', 'srcdist'), shell=True)
+    call(p.join(_basedir, 'helpers', 'srcdist'))
 
 
 @manager.command
 def wheel():
     """Create a wheel package"""
-    call(p.join(_basedir, 'helpers', 'wheel'), shell=True)
+    call(p.join(_basedir, 'helpers', 'wheel'))
 
 
 if __name__ == '__main__':
