@@ -50,8 +50,8 @@ def read(filename):
         File content
 
     Examples:
-        >>> read('README.md').split('\\n')[0]
-        u'# pkutils'
+        >>> read('README.rst').split('\\n')[0]
+        u'pkutils: a Python packaging library'
     """
     try:
         with open(filename) as f:
