@@ -74,19 +74,22 @@ def parse_requirements(filename, dep=False):
         >>> parse_requirements('dev-requirements.txt').next()
         'wheel==0.22.0'
     """
-    with open(filename) as f:
-        for line in f:
-            candidate = line.strip()
+    try:
+        with open(filename) as f:
+            for line in f:
+                candidate = line.strip()
 
-            if candidate.startswith('-r'):
-                parent = p.dirname(filename)
-                new_filename = p.join(parent, candidate[2:].strip())
+                if candidate.startswith('-r'):
+                    parent = p.dirname(filename)
+                    new_filename = p.join(parent, candidate[2:].strip())
 
-                for item in parse_requirements(new_filename, dep):
-                    yield item
-            elif not dep and '#egg=' in candidate:
-                yield re.sub('.*#egg=(.*)-(.*)', r'\1==\2', candidate)
-            elif dep and '#egg=' in candidate:
-                yield candidate.replace('-e ', '')
-            elif not dep:
-                yield candidate
+                    for item in parse_requirements(new_filename, dep):
+                        yield item
+                elif not dep and '#egg=' in candidate:
+                    yield re.sub('.*#egg=(.*)-(.*)', r'\1==\2', candidate)
+                elif dep and '#egg=' in candidate:
+                    yield candidate.replace('-e ', '')
+                elif not dep:
+                    yield candidate
+    except IOError:
+        yield ''
