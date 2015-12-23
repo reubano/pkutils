@@ -29,7 +29,7 @@ standard_library.install_aliases()
 
 from os import path as p
 
-__version__ = '0.6.2'
+__version__ = '0.7.0'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
