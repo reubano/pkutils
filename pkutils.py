@@ -22,14 +22,10 @@ from __future__ import (
 
 import re
 
-from future.builtins import *
-from future.builtins.disabled import *
-from future import standard_library
-standard_library.install_aliases()
-
 from os import path as p
+from builtins import *
 
-__version__ = '0.7.0'
+__version__ = '0.7.1'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
@@ -55,8 +51,9 @@ def read(filename):
         File content
 
     Examples:
-        >>> read('README.rst').split('\\n')[0]
-        u'pkutils: a Python packaging library'
+        >>> read('README.rst').split('\\n')[0] == (
+        ...     'pkutils: a Python packaging library')
+        True
     """
     try:
         with open(filename, encoding='utf-8') as f:
@@ -76,8 +73,9 @@ def parse_requirements(filename, dep=False):
         (str): A requirement
 
     Examples:
-        >>> parse_requirements('dev-requirements.txt').next()
-        u'future==0.15.2'
+        >>> next(parse_requirements('dev-requirements.txt')) == (
+        ...     'wheel==0.24.0')
+        True
     """
     try:
         with open(filename, encoding='utf-8') as f:
