@@ -8,10 +8,7 @@ from __future__ import (
 import sys
 import pkutils
 
-from future.builtins import *
-from future.builtins.disabled import *
-from future import standard_library
-standard_library.install_aliases()
+from builtins import *
 
 try:
     from setuptools import setup
@@ -24,11 +21,16 @@ requirements = list(pkutils.parse_requirements('requirements.txt'))
 readme = pkutils.read('README.rst')
 changes = pkutils.read('CHANGES.rst').replace('.. :changelog:', '')
 license = pkutils.__license__
+title = pkutils.__title__
+description = pkutils.__description__
+
+if sys.version_info.major == 2:
+    requirements.append('future==0.15.2')
 
 setup(
-    name=pkutils.__title__,
+    name=title,
     version=pkutils.__version__,
-    description=pkutils.__description__,
+    description=description,
     long_description=readme,
     author=pkutils.__author__,
     author_email=pkutils.__email__,
@@ -40,7 +42,7 @@ setup(
     test_suite='nose.collector',
     license=license,
     zip_safe=False,
-    keywords=pkutils.__title__,
+    keywords=[title] + description.split(' '),
     classifiers=[
         pkutils.LICENSES[license],
         'Development Status :: 4 - Beta',

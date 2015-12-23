@@ -10,10 +10,7 @@ from __future__ import (
 from os import path as p
 from subprocess import call
 
-from future.builtins import *
-from future.builtins.disabled import *
-from future import standard_library
-standard_library.install_aliases()
+from builtins import *
 
 from manager import Manager
 
@@ -38,7 +35,8 @@ def check():
 @manager.command
 def lint(where=None, strict=False):
     """Check style with linters"""
-    call(['flake8', where] if where else 'flake8')
+    cmds = ['flake8', '--max-complexity=10']
+    call(cmds + [where] if where else cmds)
     args = 'pylint --rcfile=tests/standard.rc -rn -fparseable pkutils'
     call(args.split(' ') + ['--py3k'])
 
@@ -62,18 +60,16 @@ def require():
 @manager.arg('where', 'w', help='test path', default=None)
 @manager.arg(
     'stop', 'x', help='Stop after first error', type=bool, default=False)
+@manager.arg('tox', 't', help='Check with pylint')
 @manager.command
-def test(where=None, stop=False):
+def test(where=None, stop=False, tox=False):
     """Run nose and script tests"""
     opts = '-xv' if stop else '-v'
     opts += 'w %s' % where if where else ''
-    call([p.join(_basedir, 'helpers', 'test'), opts])
+    call(('nosetests %s' % opts).split(' '))
 
-
-@manager.command
-def tox():
-    """Run tests on every Python version with tox"""
-    call('tox')
+    if tox:
+        call('tox')
 
 
 @manager.command
