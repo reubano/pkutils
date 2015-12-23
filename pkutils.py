@@ -25,7 +25,7 @@ import re
 from os import path as p
 from builtins import *
 
-__version__ = '0.7.0'
+__version__ = '0.7.1'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
