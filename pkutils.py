@@ -24,7 +24,7 @@ import re
 
 from os import path as p
 
-__version__ = '0.6.1'
+__version__ = '0.6.2'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
