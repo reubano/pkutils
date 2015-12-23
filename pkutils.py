@@ -24,11 +24,11 @@ import re
 
 from os import path as p
 
-__version__ = '0.6.1'
+__version__ = '0.6.2'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
-__description__ = 'Python Packing utility library'
+__description__ = 'Python packaging utility library'
 __email__ = 'reubano@gmail.com'
 __license__ = 'MIT'
 __copyright__ = 'Copyright 2015 Reuben Cummings'
@@ -50,8 +50,8 @@ def read(filename):
         File content
 
     Examples:
-        >>> read('README.md').split('\\n')[0]
-        u'# pkutils'
+        >>> read('README.rst').split('\\n')[0]
+        u'pkutils: a Python packaging library'
     """
     try:
         with open(filename) as f:

@@ -11,7 +11,7 @@ except ImportError:
 
 sys.dont_write_bytecode = True
 dev_requirements = list(pkutils.parse_requirements('dev-requirements.txt'))
-readme = pkutils.read('README.md')
+readme = pkutils.read('README.rst')
 changes = pkutils.read('CHANGES.rst').replace('.. :changelog:', '')
 license = pkutils.__license__
 
