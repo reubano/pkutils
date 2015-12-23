@@ -3,4 +3,4 @@ include CHANGES.rst
 include CONTRIBUTING.rst
 include LICENSE
 include README.rst
-include dev-requirements.txt
+include *requirements.txt

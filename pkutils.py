@@ -22,9 +22,14 @@ from __future__ import (
 
 import re
 
+from future.builtins import *
+from future.builtins.disabled import *
+from future import standard_library
+standard_library.install_aliases()
+
 from os import path as p
 
-__version__ = '0.6.2'
+__version__ = '0.7.0'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
@@ -54,7 +59,7 @@ def read(filename):
         u'pkutils: a Python packaging library'
     """
     try:
-        with open(filename) as f:
+        with open(filename, encoding='utf-8') as f:
             return f.read()
     except IOError:
         return ''
@@ -72,21 +77,24 @@ def parse_requirements(filename, dep=False):
 
     Examples:
         >>> parse_requirements('dev-requirements.txt').next()
-        'wheel==0.22.0'
+        u'future==0.15.2'
     """
-    with open(filename) as f:
-        for line in f:
-            candidate = line.strip()
+    try:
+        with open(filename, encoding='utf-8') as f:
+            for line in f:
+                candidate = line.strip()
 
-            if candidate.startswith('-r'):
-                parent = p.dirname(filename)
-                new_filename = p.join(parent, candidate[2:].strip())
+                if candidate.startswith('-r'):
+                    parent = p.dirname(filename)
+                    new_filename = p.join(parent, candidate[2:].strip())
 
-                for item in parse_requirements(new_filename, dep):
-                    yield item
-            elif not dep and '#egg=' in candidate:
-                yield re.sub('.*#egg=(.*)-(.*)', r'\1==\2', candidate)
-            elif dep and '#egg=' in candidate:
-                yield candidate.replace('-e ', '')
-            elif not dep:
-                yield candidate
+                    for item in parse_requirements(new_filename, dep):
+                        yield item
+                elif not dep and '#egg=' in candidate:
+                    yield re.sub('.*#egg=(.*)-(.*)', r'\1==\2', candidate)
+                elif dep and '#egg=' in candidate:
+                    yield candidate.replace('-e ', '')
+                elif not dep:
+                    yield candidate
+    except IOError:
+        yield ''

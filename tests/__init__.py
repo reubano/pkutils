@@ -12,6 +12,11 @@ from __future__ import (
     absolute_import, division, print_function, with_statement,
     unicode_literals)
 
+from future.builtins import *
+from future.builtins.disabled import *
+from future import standard_library
+standard_library.install_aliases()
+
 initialized = False
 
 
