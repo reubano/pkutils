@@ -123,8 +123,7 @@ def parse_requirements(filename, dep=False):
         (str): A requirement
 
     Examples:
-        >>> next(parse_requirements('dev-requirements.txt')) == (
-        ...     'wheel==0.24.0')
+        >>> next(parse_requirements('dev-requirements.txt')) == 'semver==2.2.1'
         True
     """
     try:
