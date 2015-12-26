@@ -38,7 +38,7 @@ register:
 
 sdist:
 	clean
-	helpers/sdist
+	helpers/srcdist
 
 wheel:
 	clean
