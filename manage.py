@@ -102,7 +102,7 @@ def upload():
 @manager.command
 def sdist():
     """Create a source distribution package"""
-    call(p.join(_basedir, 'helpers', 'srcdist'))
+    call(p.join(_basedir, 'helpers', 'sdist'))
 
 
 @manager.command

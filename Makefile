@@ -38,7 +38,8 @@ register:
 	python setup.py register
 
 sdist:
-	helpers/srcdist
+	clean
+	helpers/sdist
 
 wheel:
 	helpers/wheel
