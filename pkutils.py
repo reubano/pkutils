@@ -28,7 +28,7 @@ from functools import total_ordering
 from bisect import bisect
 from builtins import *
 
-__version__ = '0.9.0'
+__version__ = '0.9.1'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
