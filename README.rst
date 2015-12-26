@@ -12,6 +12,7 @@ intended to be used in your package's ``setup.py`` file.
 With pkutils, you can
 
 - Parse requirements files
+- Determine your project's development status
 - Read text files
 - and much more...
 
@@ -61,6 +62,7 @@ Complete Example
 .. code-block:: python
 
     import pkutils
+    import my_module
 
     try:
         from setuptools import setup
@@ -79,6 +81,26 @@ Complete Example
         dependency_links=dependencies,
         classifiers=[
             pkutils.LICENSES['MIT'],
+            pkutils.get_status(my_module.__version__),
+            ...
+        ],
+        ...
+    )
+
+This is then converted into something like the following:
+
+.. code-block:: python
+
+    ...
+
+    setup(
+        long_description='pkutils: a Python packaging library...',
+        install_requires=['semver==2.2.1'],
+        tests_require=['semver==2.2.1', 'wheel==0.24.0', 'flake8==2.5.1', ...],
+        dependency_links=[],
+        classifiers=[
+            'License :: OSI Approved :: MIT License',
+            'Development Status :: 3 - Alpha',
             ...
         ],
         ...
@@ -153,7 +175,7 @@ Project structure
 Design Principles
 -----------------
 
-- no external dependencies
+- minimize external dependencies
 - prefer functions over objects
 - keep the API as simple as possible
 

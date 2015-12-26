@@ -49,7 +49,7 @@ setup(
     keywords=[title] + description.split(' '),
     classifiers=[
         pkutils.LICENSES[license],
-        'Development Status :: 4 - Beta',
+        pkutils.get_status(version),
         'Natural Language :: English',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
