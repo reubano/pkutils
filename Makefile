@@ -31,8 +31,7 @@ lint:
 test:
 	nosetests -xv
 
-release:
-	sdist wheel upload
+release: clean sdist wheel upload
 
 register:
 	python setup.py register
@@ -42,6 +41,7 @@ sdist:
 	helpers/sdist
 
 wheel:
+	clean
 	helpers/wheel
 
 upload:
