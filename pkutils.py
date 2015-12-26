@@ -21,11 +21,14 @@ from __future__ import (
     unicode_literals)
 
 import re
+import semver
 
 from os import path as p
+from functools import total_ordering
+from bisect import bisect
 from builtins import *
 
-__version__ = '0.8.0'
+__version__ = '0.9.0'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
@@ -39,6 +42,53 @@ LICENSES = {
     'MIT': 'License :: OSI Approved :: MIT License',
     'BSD': 'License :: OSI Approved :: BSD License',
 }
+
+STATUSES = [
+    'Development Status :: 2 - Pre-Alpha',
+    'Development Status :: 3 - Alpha',
+    'Development Status :: 4 - Beta',
+    'Development Status :: 5 - Production/Stable',
+    'Development Status :: 6 - Mature']
+
+
+@total_ordering
+class Version(object):
+    """A semver version"""
+    def __init__(self, value):
+        self.value = value
+
+    def __eq__(self, other):
+        return semver.compare(self.value, other.value) == 0
+
+    def __lt__(self, other):
+        return semver.compare(self.value, other.value) == -1
+
+    def __str__(self):
+        return self.value
+
+    def __repr__(self):
+        return '<Version %s>' % self.value
+
+
+def get_status(version, breaks=None):
+    """Categorizes a version into a development status.
+
+    Args:
+        version (str): A semver valid version.
+        breaks (seq[str]): The version cutoffs
+
+    Returns:
+        str: The version status
+
+    Examples:
+        >>> get_status('0.3.0') == 'Development Status :: 2 - Pre-Alpha'
+        True
+        >>> get_status('0.9.0') == 'Development Status :: 3 - Alpha'
+        True
+    """
+    def_breaks = ('0.5.0', '0.10.0', '1.0.0', '2.0.0')
+    breakpoints = [Version(b) for b in breaks or def_breaks]
+    return STATUSES[bisect(breakpoints, Version(version))]
 
 
 def read(filename):
