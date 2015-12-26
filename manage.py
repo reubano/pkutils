@@ -82,15 +82,7 @@ def test(where=None, stop=False, tox=False):
     """Run nose and script tests"""
     opts = '-xv' if stop else '-v'
     opts += 'w %s' % where if where else ''
-
-    try:
-        if tox:
-            check_call('tox')
-        else:
-            check_call(('nosetests %s' % opts).split(' '))
-            check_call(['python', p.join(BASEDIR, 'tests', 'test.py')])
-    except CalledProcessError as e:
-        exit(e.returncode)
+    exit(call('tox' if tox else ('nosetests %s' % opts).split(' ')))
 
 
 @manager.command
