@@ -28,7 +28,7 @@ from functools import total_ordering
 from bisect import bisect
 from builtins import *
 
-__version__ = '0.9.0'
+__version__ = '0.9.1'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
@@ -123,8 +123,7 @@ def parse_requirements(filename, dep=False):
         (str): A requirement
 
     Examples:
-        >>> next(parse_requirements('dev-requirements.txt')) == (
-        ...     'wheel==0.24.0')
+        >>> next(parse_requirements('dev-requirements.txt')) == 'semver==2.2.1'
         True
     """
     try:
