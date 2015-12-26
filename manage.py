@@ -49,11 +49,10 @@ def check():
 @manager.command
 def lint(where=None, strict=False):
     """Check style with linters"""
-    cmds = ['flake8', '--max-complexity=10']
     args = 'pylint --rcfile=tests/standard.rc -rn -fparseable pkutils'
 
     try:
-        check_call(cmds + [where] if where else cmds)
+        check_call(['flake8', where] if where else 'flake8')
         check_call(args.split(' ') + ['--py3k'])
         check_call(args.split(' ')) if strict else None
     except CalledProcessError as e:
