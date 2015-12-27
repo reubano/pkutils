@@ -10,7 +10,13 @@ Provides methods that simplify python module packaging.
 Examples:
     parse requirements file::
 
-        requirements = list(parse_requirements('requirements.txt'))
+        >>> requirements = parse_requirements('requirements.txt')
+        >>> len(list(requirements)) > 0
+        True
+        >>> get_status('0.3.0') == 'Development Status :: 2 - Pre-Alpha'
+        True
+
+
 
 Attributes:
     LICENSES (dict): available python license classifiers.
@@ -55,7 +61,23 @@ STATUSES = [
 
 @total_ordering
 class Version(object):
-    """A semver version"""
+    """A semver version
+
+    Args:
+        version (str): A semver valid version.
+
+    Examples:
+        >>> v1 = Version('0.3.0')
+        >>> v2 = Version('0.10.0')
+        >>> v1, v2
+        (<Version 0.3.0>, <Version 0.10.0>)
+        >>> str(v1), str(v2)
+        ('0.3.0', '0.10.0')
+        >>> str(v2) > str(v1)
+        False
+        >>> v2 > v1
+        True
+    """
     def __init__(self, value):
         self.value = value
 
