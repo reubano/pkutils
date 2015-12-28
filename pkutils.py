@@ -21,14 +21,16 @@ from __future__ import (
     unicode_literals)
 
 import re
-import semver
 
+from bisect import bisect
 from os import path as p
 from functools import total_ordering
-from bisect import bisect
+
+import semver
+
 from builtins import *
 
-__version__ = '0.9.1'
+__version__ = '0.9.2'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
