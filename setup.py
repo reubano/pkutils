@@ -25,6 +25,7 @@ version = pkutils.__version__
 title = pkutils.__title__
 description = pkutils.__description__
 gh = 'https://github.com/reubano'
+user = 'reubano'
 
 if sys.version_info.major == 2:
     requirements.append('future==0.15.2')
@@ -37,7 +38,7 @@ setup(
     author=pkutils.__author__,
     author_email=pkutils.__email__,
     url='%s/%s' % (gh, title),
-    download_url='%s/%s/downloads/%s*.tgz' % (gh, title, title),
+    download_url=pkutils.get_dl_url(title, user, version),
     py_modules=['pkutils'],
     include_package_data=True,
     package_data={},

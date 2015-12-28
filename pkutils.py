@@ -115,6 +115,26 @@ def get_status(version, breaks=None):
     return STATUSES[bisect(breakpoints, Version(version))]
 
 
+def get_dl_url(project, user, version, base='https://github.com', ext='tar.gz'):
+    """Gets the package download url.
+
+    Args:
+        version (str): A semver valid version.
+        user (str): The username.
+        base (str): The hosting site (default: 'https://github.com').
+        ext (str): The file extension (default: 'tar.gz').
+
+    Returns:
+        str: The download url
+
+    Examples:
+        >>> get_dl_url('pkutils', 'reubano', '0.3.0') == (
+        ...     'https://github.com/reubano/pkutils/archive/v0.3.0.tar.gz')
+        True
+    """
+    return '%s/%s/%s/archive/v%s.%s' % (base, user, project, version, ext)
+
+
 def read(filename):
     """Reads a file.
 
