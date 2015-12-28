@@ -103,6 +103,8 @@ This is then converted into something like the following:
         install_requires=['semver==2.2.1'],
         tests_require=['semver==2.2.1', 'wheel==0.24.0', 'flake8==2.5.1', ...],
         dependency_links=[],
+        url='https://github.com/reubano/pkutils',
+        download_url='https://github.com/reubano/pkutils/archive/v0.11.0.tar.gz',
         classifiers=[
             'License :: OSI Approved :: MIT License',
             'Development Status :: 3 - Alpha',
