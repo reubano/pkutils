@@ -24,7 +24,8 @@ pkutils has been tested and is known to work on the following `Python versions`_
 - 2.7
 - 3.4
 - 3.5
-- pypy
+- pypy v4.0
+- pypy3 v2.4
 
 Motivation
 ----------
