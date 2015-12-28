@@ -37,7 +37,7 @@ setup(
     long_description=readme,
     author=pkutils.__author__,
     author_email=pkutils.__email__,
-    url='%s/%s' % (gh, title),
+    url=pkutils.get_url(title, user),
     download_url=pkutils.get_dl_url(title, user, version),
     py_modules=['pkutils'],
     include_package_data=True,

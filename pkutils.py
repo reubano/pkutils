@@ -115,6 +115,24 @@ def get_status(version, breaks=None):
     return STATUSES[bisect(breakpoints, Version(version))]
 
 
+def get_url(project, user, base='https://github.com'):
+    """Gets the repo download url.
+
+    Args:
+        user (str): The username.
+        base (str): The hosting site (default: 'https://github.com').
+
+    Returns:
+        str: The url
+
+    Examples:
+        >>> get_url('pkutils', 'reubano') == (
+        ...     'https://github.com/reubano/pkutils')
+        True
+    """
+    return '%s/%s/%s' % (base, user, project)
+
+
 def get_dl_url(project, user, version, base='https://github.com', ext='tar.gz'):
     """Gets the package download url.
 
