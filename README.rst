@@ -123,27 +123,6 @@ or ``easy_install``
 
     easy_install pygogo
 
-.. [#] Detailed installation instructions
-
-If you have ``virtualenvwrapper`` installed, at the command line type:
-
-.. code-block:: bash
-
-    mkvirtualenv pygogo
-    pip install pygogo
-
-Or, if you only have ``virtualenv`` installed:
-
-.. code-block:: bash
-
-    virtualenv ~/.venvs/pygogo
-    source ~/.venvs/pygogo/bin/activate
-    pip install pygogo
-
-Otherwise, you can install globally::
-
-    pip install pygogo
-
 Project structure
 -----------------
 
@@ -244,3 +223,27 @@ Please see the `contributing doc`_ for more details.
 .. _virtualenv: http://www.virtualenv.org/en/latest/index.html
 .. _Python versions: http://www.python.org/download
 .. _contributing doc: https://github.com/reubano/pkutils/blob/master/CONTRIBUTING.rst
+
+Footnotes
+---------
+
+.. [#] Detailed installation instructions
+
+If you have ``virtualenvwrapper`` installed, at the command line type:
+
+.. code-block:: bash
+
+    mkvirtualenv pygogo
+    pip install pygogo
+
+Or, if you only have ``virtualenv`` installed:
+
+.. code-block:: bash
+
+    virtualenv ~/.venvs/pygogo
+    source ~/.venvs/pygogo/bin/activate
+    pip install pygogo
+
+Otherwise, you can install globally::
+
+    pip install pygogo
