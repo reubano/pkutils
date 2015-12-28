@@ -107,7 +107,7 @@ This is then converted into something like the following:
         download_url='https://github.com/reubano/pkutils/archive/v0.11.0.tar.gz',
         classifiers=[
             'License :: OSI Approved :: MIT License',
-            'Development Status :: 3 - Alpha',
+            'Development Status :: 4 - Beta',
             ...
         ],
         ...
