@@ -1,7 +1,7 @@
 pkutils: a Python packaging library
 ===================================
 
-|versions| |pypi|
+|travis| |versions| |pypi|
 
 Introduction
 ------------
@@ -212,6 +212,9 @@ If you add new classes or functions, please add the appropriate doc blocks with
 examples. Also, make sure the python linter and nose tests pass.
 
 Please see the `contributing doc`_ for more details.
+
+.. |travis| image:: https://img.shields.io/travis/reubano/pkutils.svg
+    :target: https://travis-ci.org/reubano/pkutils
 
 .. |versions| image:: https://img.shields.io/pypi/pyversions/pkutils.svg
     :target: https://pypi.python.org/pypi/pkutils
