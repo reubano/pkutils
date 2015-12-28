@@ -7,6 +7,7 @@ from __future__ import (
 
 import sys
 import pkutils
+import pkutils as my_module
 
 from builtins import *
 
@@ -20,11 +21,10 @@ requirements = list(pkutils.parse_requirements('requirements.txt'))
 dev_requirements = list(pkutils.parse_requirements('dev-requirements.txt'))
 readme = pkutils.read('README.rst')
 changes = pkutils.read('CHANGES.rst').replace('.. :changelog:', '')
-license = pkutils.__license__
-version = pkutils.__version__
-title = pkutils.__title__
-description = pkutils.__description__
-gh = 'https://github.com/reubano'
+license = my_module.__license__
+version = my_module.__version__
+title = my_module.__title__
+description = my_module.__description__
 user = 'reubano'
 
 if sys.version_info.major == 2:
@@ -35,8 +35,8 @@ setup(
     version=version,
     description=description,
     long_description=readme,
-    author=pkutils.__author__,
-    author_email=pkutils.__email__,
+    author=my_module.__author__,
+    author_email=my_module.__email__,
     url=pkutils.get_url(title, user),
     download_url=pkutils.get_dl_url(title, user, version),
     py_modules=['pkutils'],
