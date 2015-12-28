@@ -24,7 +24,8 @@ pkutils has been tested and is known to work on the following `Python versions`_
 - 2.7
 - 3.4
 - 3.5
-- pypy
+- pypy v4.0
+- pypy3 v2.4
 
 Motivation
 ----------
@@ -107,7 +108,7 @@ This is then converted into something like the following:
         download_url='https://github.com/reubano/pkutils/archive/v0.11.0.tar.gz',
         classifiers=[
             'License :: OSI Approved :: MIT License',
-            'Development Status :: 3 - Alpha',
+            'Development Status :: 4 - Beta',
             ...
         ],
         ...
