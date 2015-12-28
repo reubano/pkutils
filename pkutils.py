@@ -36,7 +36,7 @@ import semver
 
 from builtins import *
 
-__version__ = '0.10.2'
+__version__ = '0.11.0'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
@@ -113,6 +113,44 @@ def get_status(version, breaks=None):
     def_breaks = ('0.5.0', '0.10.0', '1.0.0', '2.0.0')
     breakpoints = [Version(b) for b in breaks or def_breaks]
     return STATUSES[bisect(breakpoints, Version(version))]
+
+
+def get_url(project, user, base='https://github.com'):
+    """Gets the repo download url.
+
+    Args:
+        user (str): The username.
+        base (str): The hosting site (default: 'https://github.com').
+
+    Returns:
+        str: The url
+
+    Examples:
+        >>> get_url('pkutils', 'reubano') == (
+        ...     'https://github.com/reubano/pkutils')
+        True
+    """
+    return '%s/%s/%s' % (base, user, project)
+
+
+def get_dl_url(project, user, version, base='https://github.com', ext='tar.gz'):
+    """Gets the package download url.
+
+    Args:
+        version (str): A semver valid version.
+        user (str): The username.
+        base (str): The hosting site (default: 'https://github.com').
+        ext (str): The file extension (default: 'tar.gz').
+
+    Returns:
+        str: The download url
+
+    Examples:
+        >>> get_dl_url('pkutils', 'reubano', '0.3.0') == (
+        ...     'https://github.com/reubano/pkutils/archive/v0.3.0.tar.gz')
+        True
+    """
+    return '%s/%s/%s/archive/v%s.%s' % (base, user, project, version, ext)
 
 
 def read(filename):

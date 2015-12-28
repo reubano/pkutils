@@ -21,7 +21,10 @@ Requirements
 
 pkutils has been tested and is known to work on the following `Python versions`_:
 
-- 2.7.10
+- 2.7
+- 3.4
+- 3.5
+- pypy
 
 Motivation
 ----------
@@ -54,9 +57,6 @@ Usage
 
 pkutils is intended to be used directly as a Python library.
 
-Complete Example
-~~~~~~~~~~~~~~~~
-
 ``setup.py``
 
 .. code-block:: python
@@ -73,15 +73,20 @@ Complete Example
     dependencies = list(pkutils.parse_requirements('requirements.txt', True))
     dev_requirements = list(pkutils.parse_requirements('dev-requirements.txt'))
     readme = pkutils.read('README.rst')
+    version = my_module.__version__
+    project = my_module.__title__
+    user = 'reubano'
 
     setup(
         long_description=readme,
         install_requires=requirements,
         tests_require=dev_requirements,
         dependency_links=dependencies,
+        url=pkutils.get_url(project, user),
+        download_url=pkutils.get_dl_url(project, user, version),
         classifiers=[
             pkutils.LICENSES['MIT'],
-            pkutils.get_status(my_module.__version__),
+            pkutils.get_status(version),
             ...
         ],
         ...
@@ -111,17 +116,17 @@ Installation
 
 (You are using a `virtualenv`_, right?) [#]_
 
-At the command line, install pygogo using either ``pip`` (*recommended*)
+At the command line, install pkutils using either ``pip`` (*recommended*)
 
 .. code-block:: bash
 
-    pip install pypygogo
+    pip install pkutils
 
 or ``easy_install``
 
 .. code-block:: bash
 
-    easy_install pygogo
+    easy_install pkutils
 
 Project structure
 -----------------
@@ -236,17 +241,17 @@ If you have ``virtualenvwrapper`` installed, at the command line type:
 
 .. code-block:: bash
 
-    mkvirtualenv pygogo
-    pip install pygogo
+    mkvirtualenv pkutils
+    pip install pkutils
 
 Or, if you only have ``virtualenv`` installed:
 
 .. code-block:: bash
 
-    virtualenv ~/.venvs/pygogo
-    source ~/.venvs/pygogo/bin/activate
-    pip install pygogo
+    virtualenv ~/.venvs/pkutils
+    source ~/.venvs/pkutils/bin/activate
+    pip install pkutils
 
 Otherwise, you can install globally::
 
-    pip install pygogo
+    pip install pkutils
