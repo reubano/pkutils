@@ -131,6 +131,8 @@ or ``easy_install``
 
     easy_install pkutils
 
+Please see the `installation doc`_ for more details.
+
 Project structure
 -----------------
 
@@ -234,27 +236,3 @@ Please see the `contributing doc`_ for more details.
 .. _virtualenv: http://www.virtualenv.org/en/latest/index.html
 .. _Python versions: http://www.python.org/download
 .. _contributing doc: https://github.com/reubano/pkutils/blob/master/CONTRIBUTING.rst
-
-Footnotes
----------
-
-.. [#] Detailed installation instructions
-
-If you have ``virtualenvwrapper`` installed, at the command line type:
-
-.. code-block:: bash
-
-    mkvirtualenv pkutils
-    pip install pkutils
-
-Or, if you only have ``virtualenv`` installed:
-
-.. code-block:: bash
-
-    virtualenv ~/.venvs/pkutils
-    source ~/.venvs/pkutils/bin/activate
-    pip install pkutils
-
-Otherwise, you can install globally::
-
-    pip install pkutils
