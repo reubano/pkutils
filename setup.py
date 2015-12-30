@@ -7,7 +7,7 @@ from __future__ import (
 
 import sys
 import pkutils
-import pkutils as my_module
+import pkutils as module
 
 from builtins import *
 
@@ -21,10 +21,10 @@ py2_requirements = list(pkutils.parse_requirements('py2-requirements.txt'))
 dev_requirements = sorted(pkutils.parse_requirements('dev-requirements.txt'))
 readme = pkutils.read('README.rst')
 changes = pkutils.read('CHANGES.rst').replace('.. :changelog:', '')
-license = my_module.__license__
-version = my_module.__version__
-project = my_module.__title__
-description = my_module.__description__
+license = module.__license__
+version = module.__version__
+project = module.__title__
+description = module.__description__
 user = 'reubano'
 
 # Conditional sdist dependencies:
@@ -40,8 +40,8 @@ setup(
     version=version,
     description=description,
     long_description=readme,
-    author=my_module.__author__,
-    author_email=my_module.__email__,
+    author=module.__author__,
+    author_email=module.__email__,
     url=pkutils.get_url(project, user),
     download_url=pkutils.get_dl_url(project, user, version),
     py_modules=['pkutils'],
