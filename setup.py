@@ -17,7 +17,8 @@ except ImportError:
     from distutils.core import setup
 
 sys.dont_write_bytecode = True
-py2_requirements = list(pkutils.parse_requirements('py2-requirements.txt'))
+py2_requirements = sorted(pkutils.parse_requirements('py2-requirements.txt'))
+py3_requirements = sorted(pkutils.parse_requirements('requirements.txt'))
 dev_requirements = sorted(pkutils.parse_requirements('dev-requirements.txt'))
 readme = pkutils.read('README.rst')
 changes = pkutils.read('CHANGES.rst').replace('.. :changelog:', '')
@@ -29,11 +30,11 @@ user = 'reubano'
 
 # Conditional sdist dependencies:
 if 'bdist_wheel' not in sys.argv and sys.version_info.major == 2:
-    requirements = sorted(py2_requirements)
+    requirements = py2_requirements
 else:
-    requirements = sorted(pkutils.parse_requirements('requirements.txt'))
+    requirements = py3_requirements
 
-extras_require = sorted(py2_requirements[1:])
+extras_require = sorted(set(py2_requirements).difference(py3_requirements))
 
 setup(
     name=project,
