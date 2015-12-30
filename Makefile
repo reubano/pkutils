@@ -47,3 +47,6 @@ wheel:
 
 upload:
 	twine upload dist/*
+
+tox:
+	tox
