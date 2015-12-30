@@ -3,6 +3,18 @@ pkutils: a Python packaging library
 
 |travis| |versions| |pypi|
 
+Index
+-----
+- `Introduction`_
+- `Motivation`_
+- `Usage`_
+- `Installation`_
+- `Project structure`_
+- `Design Principles`_
+- `Scripts`_
+- `Contributing`_
+- `License`_
+
 Introduction
 ------------
 
