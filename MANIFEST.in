@@ -1,6 +1,7 @@
 recursive-include tests *
 include CHANGES.rst
 include CONTRIBUTING.rst
+include INSTALLATION.rst
 include LICENSE
 include README.rst
 include dev-requirements.txt

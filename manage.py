@@ -78,7 +78,7 @@ def require():
 @manager.arg('tox', 't', help='Run tox tests')
 @manager.command
 def test(where=None, stop=False, tox=False):
-    """Run nose, tox, and script tests"""
+    """Run nose or tox tests"""
     opts = '-xv' if stop else '-v'
     opts += 'w %s' % where if where else ''
     exit(call('tox' if tox else ('nosetests %s' % opts).split(' ')))

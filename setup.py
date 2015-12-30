@@ -27,8 +27,9 @@ project = my_module.__title__
 description = my_module.__description__
 user = 'reubano'
 
-if sys.version_info.major == 2:
-    requirements.append('future==0.15.2')
+# Conditional sdist dependencies:
+if 'bdist_wheel' not in sys.argv and sys.version_info.major == 2:
+    requirements.append('future>=0.15.2')
 
 setup(
     name=project,
@@ -43,6 +44,7 @@ setup(
     include_package_data=True,
     package_data={},
     install_requires=requirements,
+    extras_require={':python_version<"3.0"': ['future>=0.15.2']},
     test_suite='nose.collector',
     tests_require=dev_requirements,
     license=license,
