@@ -34,6 +34,7 @@ if 'bdist_wheel' not in sys.argv and sys.version_info.major == 2:
 else:
     requirements = py3_requirements
 
+# Conditional bdist_wheel dependencies:
 extras_require = sorted(set(py2_requirements).difference(py3_requirements))
 
 setup(
