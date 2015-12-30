@@ -185,7 +185,8 @@ def parse_requirements(filename, dep=False):
         (str): A requirement
 
     Examples:
-        >>> next(parse_requirements('dev-requirements.txt')) == 'semver==2.2.1'
+        >>> next(parse_requirements('dev-requirements.txt')) == (
+        ...     'semver>=2.2.1,<3.0.0')
         True
     """
     try:
