@@ -5,15 +5,10 @@ pkutils: a Python packaging library
 
 Index
 -----
-- `Introduction`_
-- `Motivation`_
-- `Usage`_
-- `Installation`_
-- `Project structure`_
-- `Design Principles`_
-- `Scripts`_
-- `Contributing`_
-- `License`_
+`Introduction`_ | `Requirements`_ | `Motivation`_ | `Usage`_ | `Installation`_ |
+`Project Structure`_
+
+`Design Principles`_ | `Scripts`_ | `Contributing`_ | `License`_
 
 Introduction
 ------------
@@ -31,13 +26,8 @@ With pkutils, you can
 Requirements
 ------------
 
-pkutils has been tested and is known to work on the following `Python versions`_:
-
-- 2.7
-- 3.4
-- 3.5
-- pypy v4.0
-- pypy3 v2.4
+pkutils has been tested and is known to work on Python 2.7, 3.4, and 3.5;
+PyPy 4.0; and PyPy3 2.4
 
 Motivation
 ----------
