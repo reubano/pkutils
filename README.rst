@@ -135,7 +135,7 @@ or ``easy_install``
 
 Please see the `installation doc`_ for more details.
 
-Project structure
+Project Structure
 -----------------
 
 .. code-block:: bash
@@ -211,11 +211,6 @@ Or if ``make`` is more your speed...
     make lint
     make test
 
-License
--------
-
-pkutils is distributed under the `MIT License`_.
-
 Contributing
 ------------
 
@@ -224,6 +219,11 @@ If you add new classes or functions, please add the appropriate doc blocks with
 examples. Also, make sure the python linter and nose tests pass.
 
 Please see the `contributing doc`_ for more details.
+
+License
+-------
+
+pkutils is distributed under the `MIT License`_.
 
 .. |travis| image:: https://img.shields.io/travis/reubano/pkutils.svg
     :target: https://travis-ci.org/reubano/pkutils
@@ -236,5 +236,5 @@ Please see the `contributing doc`_ for more details.
 
 .. _MIT License: http://opensource.org/licenses/MIT
 .. _virtualenv: http://www.virtualenv.org/en/latest/index.html
-.. _Python versions: http://www.python.org/download
 .. _contributing doc: https://github.com/reubano/pkutils/blob/master/CONTRIBUTING.rst
+.. _installation doc: https://github.com/reubano/bump/blob/master/INSTALLATION.rst
