@@ -28,6 +28,7 @@ from __future__ import (
 
 import re
 
+from io import open
 from bisect import bisect
 from os import path as p
 from functools import total_ordering
@@ -36,7 +37,7 @@ import semver
 
 from builtins import *
 
-__version__ = '0.12.4'
+__version__ = '0.12.5'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
@@ -186,7 +187,7 @@ def parse_requirements(filename, dep=False):
 
     Examples:
         >>> next(parse_requirements('dev-requirements.txt')) == (
-        ...     'semver>=2.2.1,<3.0.0')
+        ...     'flake8~=2.5.1')
         True
     """
     try:
