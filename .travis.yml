@@ -7,6 +7,20 @@ python:
   - "pypy"
   - "pypy3"
 
+cache:
+  directories:
+    - ~/.cache/pip
+
+env:
+  global:
+    - PIP_WHEEL_DIR=$HOME/.cache/pip/wheels
+    - PIP_FIND_LINKS=file://$HOME/.cache/pip/wheels
+    - PYTHONHASHSEED=94967295
+    - PYPY_GIT=https://github.com/yyuu/pyenv.git
+    - PYENV_ROOT=$HOME/.pyenv
+    - PYPY_VENV=$HOME/virtualenvs/pypy
+    - PYPY_PATH=$PYENV_ROOT/versions/pypy
+
 notifications:
   email:
     on_success: always
@@ -15,10 +29,31 @@ branches:
   except:
     - /^v[0-9]/
 
+before_install:
+  - pip install -U pip
+  - pip install wheel
+  - |
+      if [ "$TRAVIS_PYTHON_VERSION" = "pypy" ]; then
+        export PYPY_VERSION="5.1.1"
+
+        if [ -f "$PYENV_ROOT/bin/pyenv" ]; then
+          pushd "$PYENV_ROOT" && git pull && popd
+        else
+          rm -rf "$PYENV_ROOT" && git clone --depth 1 "$PYPY_GIT" "$PYENV_ROOT"
+        fi
+
+        "$PYENV_ROOT/bin/pyenv" install --skip-existing "pypy-$PYPY_VERSION"
+        virtualenv --python="$PYPY_PATH-$PYPY_VERSION/bin/python" "$PYPY_VENV-$PYPY_VERSION"
+        source "$PYPY_VENV-$PYPY_VERSION/bin/activate"
+      fi
+
 install:
+  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then pip install -r py2-requirements.txt; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == pypy ]]; then pip install -r py2-requirements.txt; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == 3.4 ]]; then pip install -r requirements.txt; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == 3.5 ]]; then pip install -r requirements.txt; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == pypy3 ]]; then pip install -r requirements.txt; fi
   - pip install -r dev-requirements.txt
-  - if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then pip install future==0.15.2; fi
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "pypy" ]]; then pip install future==0.15.2; fi
 
 script:
   - manage lint
@@ -27,6 +62,7 @@ script:
 after_success:
   - if [[ "$TRAVIS_PULL_REQUEST" == "true" ]]; then exit 0; fi
   - if [[ "$TRAVIS_BRANCH" != "master" ]]; then exit 0; fi
+  - if [[ "$TRAVIS_PYTHON_VERSION" != "2.7" ]]; then exit 0; fi
 
 deploy:
   provider: pypi
