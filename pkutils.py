@@ -37,7 +37,7 @@ import semver
 
 from builtins import *
 
-__version__ = '0.12.4'
+__version__ = '0.12.5'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
