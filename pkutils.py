@@ -187,7 +187,7 @@ def parse_requirements(filename, dep=False):
 
     Examples:
         >>> next(parse_requirements('dev-requirements.txt')) == (
-        ...     'semver>=2.2.1,<3.0.0')
+        ...     'flake8~=2.5.1')
         True
     """
     try:
