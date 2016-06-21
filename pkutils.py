@@ -28,6 +28,7 @@ from __future__ import (
 
 import re
 
+from io import open
 from bisect import bisect
 from os import path as p
 from functools import total_ordering
