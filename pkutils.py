@@ -34,8 +34,6 @@ from functools import total_ordering
 
 import semver
 
-from builtins import *
-
 __version__ = '0.13.0'
 
 __title__ = 'pkutils'

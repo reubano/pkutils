@@ -35,8 +35,7 @@ def parse_module(filename):
                 yield tuple(s.strip().strip("'").strip('"') for s in splits)
 
 sys.dont_write_bytecode = True
-py2_requirements = set(parse_requirements('py2-requirements.txt'))
-py3_requirements = set(parse_requirements('requirements.txt'))
+requirements = set(parse_requirements('requirements.txt'))
 dev_requirements = set(parse_requirements('dev-requirements.txt'))
 readme = read('README.rst')
 changes = read('CHANGES.rst').replace('.. :changelog:', '')
@@ -47,18 +46,6 @@ project = module['__title__']
 description = module['__description__']
 user = 'reubano'
 github_url = 'https://github.com/%s/%s' % (user, project)
-
-# Conditional sdist dependencies:
-tox = '.tox/dist' in sys.argv
-bdist = 'bdist_wheel' in sys.argv
-
-if sys.version_info.major == 2 and not (bdist or tox):
-    requirements = py2_requirements
-else:
-    requirements = py3_requirements
-
-# Conditional bdist_wheel dependencies:
-extras_require = py2_requirements.difference(py3_requirements)
 
 setup(
     name=project,
@@ -73,7 +60,6 @@ setup(
     include_package_data=True,
     package_data={},
     install_requires=requirements,
-    extras_require={'python_version<3.0': extras_require},
     test_suite='nose.collector',
     tests_require=dev_requirements,
     license=license,
