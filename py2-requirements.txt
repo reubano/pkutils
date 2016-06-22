@@ -1,2 +1,2 @@
--r requirements.txt
+semver~=2.2.1
 future~=0.15.2

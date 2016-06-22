@@ -200,11 +200,8 @@ def read(filename, encoding='utf-8'):
         ...     'pkutils: a Python packaging library')
         True
     """
-    try:
-        with open(filename, encoding=encoding) as f:
-            return f.read()
-    except IOError:
-        return ''
+    with open(filename, encoding=encoding) as f:
+        return f.read()
 
 
 def _get_attrs(f):
@@ -281,22 +278,19 @@ def parse_requirements(filename, dep=False, encoding='utf-8'):
         ...     'flake8~=2.5.1')
         True
     """
-    try:
-        with open(filename, encoding=encoding) as f:
-            for line in f:
-                candidate = line.strip()
+    with open(filename, encoding=encoding) as f:
+        for line in f:
+            candidate = line.strip()
 
-                if candidate.startswith('-r'):
-                    parent = p.dirname(filename)
-                    new_filename = p.join(parent, candidate[2:].strip())
+            if candidate.startswith('-r'):
+                parent = p.dirname(filename)
+                new_filename = p.join(parent, candidate[2:].strip())
 
-                    for item in parse_requirements(new_filename, dep):
-                        yield item
-                elif not dep and '#egg=' in candidate:
-                    yield re.sub('.*#egg=(.*)-(.*)', r'\1==\2', candidate)
-                elif dep and '#egg=' in candidate:
-                    yield candidate.replace('-e ', '')
-                elif not dep:
-                    yield candidate
-    except IOError:
-        yield ''
+                for item in parse_requirements(new_filename, dep):
+                    yield item
+            elif not dep and '#egg=' in candidate:
+                yield re.sub('.*#egg=(.*)-(.*)', r'\1==\2', candidate)
+            elif dep and '#egg=' in candidate:
+                yield candidate.replace('-e ', '')
+            elif not dep:
+                yield candidate

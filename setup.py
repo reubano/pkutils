@@ -6,8 +6,8 @@ from __future__ import (
     unicode_literals)
 
 import sys
-import pkutils
 
+from io import open
 from builtins import *
 
 try:
@@ -15,21 +15,44 @@ try:
 except ImportError:
     from distutils.core import setup
 
+
+def parse_requirements(filename):
+    with open(filename, encoding='utf-8') as f:
+        for line in f:
+            yield line.strip()
+
+
+def read(filename):
+    with open(filename, encoding='utf-8') as f:
+        return f.read()
+
+
+def parse_module(filename):
+    with open(filename, encoding='utf-8') as f:
+        for line in f:
+            if line.startswith('__'):
+                splits = line.split('=')
+                yield tuple(s.strip().strip("'").strip('"') for s in splits)
+
 sys.dont_write_bytecode = True
-py2_requirements = set(pkutils.parse_requirements('py2-requirements.txt'))
-py3_requirements = set(pkutils.parse_requirements('requirements.txt'))
-dev_requirements = set(pkutils.parse_requirements('dev-requirements.txt'))
-readme = pkutils.read('README.rst')
-changes = pkutils.read('CHANGES.rst').replace('.. :changelog:', '')
-module = pkutils.parse_module('pkutils.py')
-license = module.__license__
-version = module.__version__
-project = module.__title__
-description = module.__description__
+py2_requirements = set(parse_requirements('py2-requirements.txt'))
+py3_requirements = set(parse_requirements('requirements.txt'))
+dev_requirements = set(parse_requirements('dev-requirements.txt'))
+readme = read('README.rst')
+changes = read('CHANGES.rst').replace('.. :changelog:', '')
+module = dict(parse_module('pkutils.py'))
+license = module['__license__']
+version = module['__version__']
+project = module['__title__']
+description = module['__description__']
 user = 'reubano'
+github_url = 'https://github.com/%s/%s' % (user, project)
 
 # Conditional sdist dependencies:
-if 'bdist_wheel' not in sys.argv and sys.version_info.major == 2:
+tox = '.tox/dist' in sys.argv
+bdist = 'bdist_wheel' in sys.argv
+
+if sys.version_info.major == 2 and not (bdist or tox):
     requirements = py2_requirements
 else:
     requirements = py3_requirements
@@ -42,24 +65,23 @@ setup(
     version=version,
     description=description,
     long_description=readme,
-    author=module.__author__,
-    author_email=module.__email__,
-    url=pkutils.get_url(project, user),
-    download_url=pkutils.get_dl_url(project, user, version),
+    author=module['__author__'],
+    author_email=module['__email__'],
+    url=github_url,
+    download_url='%s/archive/v%s.tar.gz' % (github_url, version),
     py_modules=['pkutils'],
     include_package_data=True,
     package_data={},
     install_requires=requirements,
     extras_require={'python_version<3.0': extras_require},
-    setup_requires=['pkutils~=0.12.0'],
     test_suite='nose.collector',
     tests_require=dev_requirements,
     license=license,
     zip_safe=False,
     keywords=description.split(' '),
     classifiers=[
-        pkutils.LICENSES[license],
-        pkutils.get_status(version),
+        'License :: OSI Approved :: MIT License',
+        'Development Status :: 4 - Beta',
         'Natural Language :: English',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
