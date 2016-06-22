@@ -154,7 +154,7 @@ def get_dl_url(project, user, version, base='https://github.com', ext='tar.gz'):
     return '%s/%s/%s/archive/v%s.%s' % (base, user, project, version, ext)
 
 
-def read(filename):
+def read(filename, encoding='utf-8'):
     """Reads a file.
 
     Args:
@@ -169,13 +169,13 @@ def read(filename):
         True
     """
     try:
-        with open(filename, encoding='utf-8') as f:
+        with open(filename, encoding=encoding) as f:
             return f.read()
     except IOError:
         return ''
 
 
-def parse_requirements(filename, dep=False):
+def parse_requirements(filename, dep=False, encoding='utf-8'):
     """Iteratively parses requirements files. Handles `-r` and `-e` options.
 
     Args:
@@ -191,7 +191,7 @@ def parse_requirements(filename, dep=False):
         True
     """
     try:
-        with open(filename, encoding='utf-8') as f:
+        with open(filename, encoding=encoding) as f:
             for line in f:
                 candidate = line.strip()
 
