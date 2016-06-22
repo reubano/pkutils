@@ -34,9 +34,7 @@ from functools import total_ordering
 
 import semver
 
-from builtins import *
-
-__version__ = '0.13.0'
+__version__ = '0.13.1'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
