@@ -7,7 +7,6 @@ from __future__ import (
 
 import sys
 import pkutils
-import pkutils as module
 
 from builtins import *
 
@@ -22,6 +21,7 @@ py3_requirements = set(pkutils.parse_requirements('requirements.txt'))
 dev_requirements = set(pkutils.parse_requirements('dev-requirements.txt'))
 readme = pkutils.read('README.rst')
 changes = pkutils.read('CHANGES.rst').replace('.. :changelog:', '')
+module = pkutils.parse_module('pkutils.py')
 license = module.__license__
 version = module.__version__
 project = module.__title__

@@ -60,6 +60,39 @@ STATUSES = [
     'Development Status :: 6 - Mature']
 
 
+class Dictlike(object):
+    """Creates an object whose attributes are accessible in a dict like manner.
+    """
+    def __init__(self, data):
+        """ Dictlike constructor
+
+        Args:
+            data (dict): The attributes to set
+
+        Examples:
+            >>> data = {'one': 1, 'two': 2}
+            >>> kw = Dictlike(data)
+            >>> kw.one
+            1
+            >>> kw.two
+            2
+            >>> kw.get('one')
+            1
+            >>> kw['two']
+            2
+            >>> kw.three == kw.get('three') == None
+            True
+        """
+        self.data = data
+        self.get = self.data.get
+
+    def __getitem__(self, name):
+        return self.data[name]
+
+    def __getattr__(self, name):
+        return self.get(name)
+
+
 @total_ordering
 class Version(object):
     """A semver version
@@ -173,6 +206,65 @@ def read(filename, encoding='utf-8'):
             return f.read()
     except IOError:
         return ''
+
+
+def _get_attrs(f):
+    """Parses text to extract any double underscored variables.
+
+    Args:
+        f (obj): A file like object or iterable of lines of text.
+
+    Yields:
+        [Tuple(str, str)]: A tuple of (variable, value).
+
+    Examples:
+        >>> lines = ["__version__ = '0.12.4'\\n"]
+        >>> next(_get_attrs(lines)) == ('__version__', '0.12.4')
+        True
+    """
+    for line in f:
+        if line.startswith('__'):
+            splits = line.split('=')
+            yield tuple(s.strip().strip("'").strip('"') for s in splits)
+
+
+def parse_module(filename, encoding='utf-8'):
+    """Parses a module file and exposes any double underscored variables as
+    object attributes.
+
+    Args:
+        filename (str): The file name.
+
+    Returns:
+        (obj): An object whose attributes are accessible in a dict like manner.
+
+    Examples:
+        >>> from tempfile import NamedTemporaryFile
+        >>>
+        >>> text = (
+        ...     "from os import path as p\\n__version__ = '0.12.4'\\n"
+        ...     "__title__ = 'pkutils'\\n__author__ = 'Reuben Cummings'\\n"
+        ...     "__email__ = 'reubano@gmail.com'\\n__license__ = 'MIT'\\n")
+        >>>
+        >>> with NamedTemporaryFile() as f:
+        ...     bool(f.write(text.encode('utf-8')) or True)
+        ...     bool(f.seek(0) or True)
+        ...     module = parse_module(f.name)
+        ...     module.__version__ == '0.12.4'
+        ...     module.__title__ == module.get('__title__') == 'pkutils'
+        ...     module.__email__ == module['__email__'] == 'reubano@gmail.com'
+        ...     module.missing == module.get('missing') == None
+        True
+        True
+        True
+        True
+        True
+        True
+    """
+    with open(filename, encoding=encoding) as f:
+        attrs = dict(_get_attrs(f))
+
+    return Dictlike(attrs)
 
 
 def parse_requirements(filename, dep=False, encoding='utf-8'):
