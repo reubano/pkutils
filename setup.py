@@ -8,7 +8,6 @@ from __future__ import (
 import sys
 
 from io import open
-from builtins import *
 
 try:
     from setuptools import setup
