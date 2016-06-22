@@ -23,8 +23,7 @@ Attributes:
 """
 
 from __future__ import (
-    absolute_import, division, print_function, with_statement,
-    unicode_literals)
+    absolute_import, division, print_function, unicode_literals)
 
 import re
 
@@ -37,7 +36,7 @@ import semver
 
 from builtins import *
 
-__version__ = '0.12.5'
+__version__ = '0.13.0'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
@@ -58,6 +57,39 @@ STATUSES = [
     'Development Status :: 4 - Beta',
     'Development Status :: 5 - Production/Stable',
     'Development Status :: 6 - Mature']
+
+
+class Dictlike(object):
+    """Creates an object whose attributes are accessible in a dict like manner.
+    """
+    def __init__(self, data):
+        """ Dictlike constructor
+
+        Args:
+            data (dict): The attributes to set
+
+        Examples:
+            >>> data = {'one': 1, 'two': 2}
+            >>> kw = Dictlike(data)
+            >>> kw.one
+            1
+            >>> kw.two
+            2
+            >>> kw.get('one')
+            1
+            >>> kw['two']
+            2
+            >>> kw.three == kw.get('three') == None
+            True
+        """
+        self.data = data
+        self.get = self.data.get
+
+    def __getitem__(self, name):
+        return self.data[name]
+
+    def __getattr__(self, name):
+        return self.get(name)
 
 
 @total_ordering
@@ -154,7 +186,7 @@ def get_dl_url(project, user, version, base='https://github.com', ext='tar.gz'):
     return '%s/%s/%s/archive/v%s.%s' % (base, user, project, version, ext)
 
 
-def read(filename):
+def read(filename, encoding='utf-8'):
     """Reads a file.
 
     Args:
@@ -168,14 +200,70 @@ def read(filename):
         ...     'pkutils: a Python packaging library')
         True
     """
-    try:
-        with open(filename, encoding='utf-8') as f:
-            return f.read()
-    except IOError:
-        return ''
+    with open(filename, encoding=encoding) as f:
+        return f.read()
 
 
-def parse_requirements(filename, dep=False):
+def _get_attrs(f):
+    """Parses text to extract any double underscored variables.
+
+    Args:
+        f (obj): A file like object or iterable of lines of text.
+
+    Yields:
+        [Tuple(str, str)]: A tuple of (variable, value).
+
+    Examples:
+        >>> lines = ["__version__ = '0.12.4'\\n"]
+        >>> next(_get_attrs(lines)) == ('__version__', '0.12.4')
+        True
+    """
+    for line in f:
+        if line.startswith('__'):
+            splits = line.split('=')
+            yield tuple(s.strip().strip("'").strip('"') for s in splits)
+
+
+def parse_module(filename, encoding='utf-8'):
+    """Parses a module file and exposes any double underscored variables as
+    object attributes.
+
+    Args:
+        filename (str): The file name.
+
+    Returns:
+        (obj): An object whose attributes are accessible in a dict like manner.
+
+    Examples:
+        >>> from tempfile import NamedTemporaryFile
+        >>>
+        >>> text = (
+        ...     "from os import path as p\\n__version__ = '0.12.4'\\n"
+        ...     "__title__ = 'pkutils'\\n__author__ = 'Reuben Cummings'\\n"
+        ...     "__email__ = 'reubano@gmail.com'\\n__license__ = 'MIT'\\n")
+        >>>
+        >>> with NamedTemporaryFile() as f:
+        ...     bool(f.write(text.encode('utf-8')) or True)
+        ...     bool(f.seek(0) or True)
+        ...     module = parse_module(f.name)
+        ...     module.__version__ == '0.12.4'
+        ...     module.__title__ == module.get('__title__') == 'pkutils'
+        ...     module.__email__ == module['__email__'] == 'reubano@gmail.com'
+        ...     module.missing == module.get('missing') == None
+        True
+        True
+        True
+        True
+        True
+        True
+    """
+    with open(filename, encoding=encoding) as f:
+        attrs = dict(_get_attrs(f))
+
+    return Dictlike(attrs)
+
+
+def parse_requirements(filename, dep=False, encoding='utf-8'):
     """Iteratively parses requirements files. Handles `-r` and `-e` options.
 
     Args:
@@ -190,22 +278,19 @@ def parse_requirements(filename, dep=False):
         ...     'flake8~=2.5.1')
         True
     """
-    try:
-        with open(filename, encoding='utf-8') as f:
-            for line in f:
-                candidate = line.strip()
+    with open(filename, encoding=encoding) as f:
+        for line in f:
+            candidate = line.strip()
 
-                if candidate.startswith('-r'):
-                    parent = p.dirname(filename)
-                    new_filename = p.join(parent, candidate[2:].strip())
+            if candidate.startswith('-r'):
+                parent = p.dirname(filename)
+                new_filename = p.join(parent, candidate[2:].strip())
 
-                    for item in parse_requirements(new_filename, dep):
-                        yield item
-                elif not dep and '#egg=' in candidate:
-                    yield re.sub('.*#egg=(.*)-(.*)', r'\1==\2', candidate)
-                elif dep and '#egg=' in candidate:
-                    yield candidate.replace('-e ', '')
-                elif not dep:
-                    yield candidate
-    except IOError:
-        yield ''
+                for item in parse_requirements(new_filename, dep):
+                    yield item
+            elif not dep and '#egg=' in candidate:
+                yield re.sub('.*#egg=(.*)-(.*)', r'\1==\2', candidate)
+            elif dep and '#egg=' in candidate:
+                yield candidate.replace('-e ', '')
+            elif not dep:
+                yield candidate

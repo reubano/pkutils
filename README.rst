@@ -6,9 +6,7 @@ pkutils: a Python packaging library
 Index
 -----
 `Introduction`_ | `Requirements`_ | `Motivation`_ | `Usage`_ | `Installation`_ |
-`Project Structure`_
-
-`Design Principles`_ | `Scripts`_ | `Contributing`_ | `License`_
+`Project Structure`_ | `Design Principles`_ | `Scripts`_ | `Contributing`_ | `License`_
 
 Introduction
 ------------
@@ -27,7 +25,7 @@ Requirements
 ------------
 
 pkutils has been tested and is known to work on Python 2.7, 3.4, and 3.5;
-PyPy 4.0; and PyPy3 2.4
+PyPy2 5.1.1 and PyPy3 5.2.0-alpha1.
 
 Motivation
 ----------
@@ -60,12 +58,24 @@ Usage
 
 pkutils is intended to be used directly as a Python library.
 
+``my_package/__init__.py``
+
+.. code-block:: python
+
+    __version__ = '0.5.4'
+
+    __title__ = 'my_package'
+    __author__ = 'Reuben Cummings'
+    __description__ = 'My super awesome great package'
+    __email__ = 'reubano@gmail.com'
+    __license__ = 'MIT'
+    __copyright__ = 'Copyright 2015 Reuben Cummings'
+
 ``setup.py``
 
 .. code-block:: python
 
     import pkutils
-    import my_module
 
     try:
         from setuptools import setup
@@ -76,15 +86,22 @@ pkutils is intended to be used directly as a Python library.
     dependencies = list(pkutils.parse_requirements('requirements.txt', True))
     dev_requirements = list(pkutils.parse_requirements('dev-requirements.txt'))
     readme = pkutils.read('README.rst')
-    version = my_module.__version__
-    project = my_module.__title__
+    module = pkutils.parse_module('my_package/__init__.py')
+    version = module.__version__
+    project = module.__title__
     user = 'reubano'
 
     setup(
+        name=project,
+        version=version,
+        description=module.__description__,
         long_description=readme,
+        author=module.__author__,
+        author_email=module.__email__,
         install_requires=requirements,
         tests_require=dev_requirements,
         dependency_links=dependencies,
+        setup_requires=['pkutils'],
         url=pkutils.get_url(project, user),
         download_url=pkutils.get_dl_url(project, user, version),
         classifiers=[
@@ -102,12 +119,18 @@ This is then converted into something like the following:
     ...
 
     setup(
-        long_description='pkutils: a Python packaging library...',
+        name='my_package',
+        version='0.5.4',
+        description='My super awesome great package',
+        long_description='my_package: a super awesome great...',
+        author='Reuben Cummings',
+        author_email='reubano@gmail.com',
         install_requires=['semver==2.2.1'],
         tests_require=['semver==2.2.1', 'wheel==0.24.0', 'flake8==2.5.1', ...],
         dependency_links=[],
+        setup_requires=['pkutils'],
         url='https://github.com/reubano/pkutils',
-        download_url='https://github.com/reubano/pkutils/archive/v0.11.0.tar.gz',
+        download_url='https://github.com/reubano/pkutils/archive/v0.5.4.tar.gz',
         classifiers=[
             'License :: OSI Approved :: MIT License',
             'Development Status :: 4 - Beta',
@@ -125,7 +148,7 @@ At the command line, install pkutils using either ``pip`` (*recommended*)
 
 .. code-block:: bash
 
-    pip install pkutils
+    pip install -u pkutils
 
 or ``easy_install``
 
