@@ -34,8 +34,8 @@ def parse_module(filename):
                 yield tuple(s.strip().strip("'").strip('"') for s in splits)
 
 sys.dont_write_bytecode = True
-requirements = set(parse_requirements('requirements.txt'))
-dev_requirements = set(parse_requirements('dev-requirements.txt'))
+requirements = list(parse_requirements('requirements.txt'))
+dev_requirements = list(parse_requirements('dev-requirements.txt'))
 readme = read('README.rst')
 changes = read('CHANGES.rst').replace('.. :changelog:', '')
 module = dict(parse_module('pkutils.py'))
