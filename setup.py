@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import (
-    absolute_import, division, print_function, with_statement,
-    unicode_literals)
+from __future__ import absolute_import, division, print_function
 
 import sys
 
@@ -34,8 +32,8 @@ def parse_module(filename):
                 yield tuple(s.strip().strip("'").strip('"') for s in splits)
 
 sys.dont_write_bytecode = True
-requirements = set(parse_requirements('requirements.txt'))
-dev_requirements = set(parse_requirements('dev-requirements.txt'))
+requirements = list(parse_requirements('requirements.txt'))
+dev_requirements = list(parse_requirements('dev-requirements.txt'))
 readme = read('README.rst')
 changes = read('CHANGES.rst').replace('.. :changelog:', '')
 module = dict(parse_module('pkutils.py'))
@@ -66,13 +64,13 @@ setup(
     keywords=description.split(' '),
     classifiers=[
         'License :: OSI Approved :: MIT License',
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Natural Language :: English',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Intended Audience :: Developers',

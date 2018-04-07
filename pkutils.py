@@ -34,7 +34,7 @@ from functools import total_ordering
 
 import semver
 
-__version__ = '0.13.6'
+__version__ = '1.0.0'
 
 __title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
@@ -120,6 +120,9 @@ class Version(object):
 
     def __str__(self):
         return self.value
+
+    def __hash__(self, other):
+        return hash(self.value)
 
     def __repr__(self):
         return '<Version %s>' % self.value
