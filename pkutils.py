@@ -121,6 +121,9 @@ class Version(object):
     def __str__(self):
         return self.value
 
+    def __hash__(self, other):
+        return hash(self.value)
+
     def __repr__(self):
         return '<Version %s>' % self.value
 
