@@ -25,7 +25,7 @@ Requirements
 ------------
 
 pkutils has been tested and is known to work on Python 2.7, 3.4, and 3.5;
-PyPy2 5.1.1 and PyPy3 5.2.0-alpha1.
+PyPy2.7; and PyPy3.5.
 
 Motivation
 ----------
