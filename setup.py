@@ -64,7 +64,7 @@ setup(
     keywords=description.split(' '),
     classifiers=[
         'License :: OSI Approved :: MIT License',
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Natural Language :: English',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
