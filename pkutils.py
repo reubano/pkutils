@@ -36,7 +36,6 @@ import semver
 
 __version__ = '1.0.0'
 
-__title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
 __description__ = 'Python packaging utility library'
 __email__ = 'reubano@gmail.com'
@@ -258,8 +257,13 @@ def parse_module(filename, encoding='utf-8'):
         True
         True
     """
+    attrs = {}
+    if filename == '__init__.py':
+        attrs['__title__'] = p.basename(p.dirname(filename))
+    else:
+        attrs['__title__'] = p.splitext(p.basename(filename))[0]
     with open(filename, encoding=encoding) as f:
-        attrs = dict(_get_attrs(f))
+        attrs.update(_get_attrs(f))
 
     return Dictlike(attrs)
 

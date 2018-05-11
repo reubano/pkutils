@@ -64,12 +64,18 @@ pkutils is intended to be used directly as a Python library.
 
     __version__ = '0.5.4'
 
-    __title__ = 'my_package'
     __author__ = 'Reuben Cummings'
     __description__ = 'My super awesome great package'
     __email__ = 'reubano@gmail.com'
     __license__ = 'MIT'
     __copyright__ = 'Copyright 2015 Reuben Cummings'
+
+You can ``__title__`` explicitly in your Python file.  If you leave
+``__title__`` unset, pkutils will use:
+
+* The parent directory for paths ending in ``__init__.py``.
+* The filename before the extention for other paths
+  (e.g. ``my_package`` for ``my_package.py``).
 
 ``setup.py``
 
