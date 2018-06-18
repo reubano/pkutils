@@ -235,19 +235,20 @@ def parse_module(filename, encoding='utf-8'):
         (obj): An object whose attributes are accessible in a dict like manner.
 
     Examples:
+        >>> import os
         >>> from tempfile import NamedTemporaryFile
         >>>
         >>> text = (
         ...     "from os import path as p\\n__version__ = '0.12.4'\\n"
-        ...     "__title__ = 'pkutils'\\n__author__ = 'Reuben Cummings'\\n"
+        ...     "__author__ = 'Reuben Cummings'\\n"
         ...     "__email__ = 'reubano@gmail.com'\\n__license__ = 'MIT'\\n")
         >>>
-        >>> with NamedTemporaryFile() as f:
+        >>> with NamedTemporaryFile(suffix='.py') as f:
         ...     bool(f.write(text.encode('utf-8')) or True)
         ...     bool(f.seek(0) or True)
         ...     module = parse_module(f.name)
         ...     module.__version__ == '0.12.4'
-        ...     module.__title__ == module.get('__title__') == 'pkutils'
+        ...     module.__title__ == os.path.splitext(os.path.basename(f.name))[0]
         ...     module.__email__ == module['__email__'] == 'reubano@gmail.com'
         ...     module.missing == module.get('missing') == None
         True
