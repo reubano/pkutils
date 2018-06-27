@@ -260,10 +260,12 @@ def parse_module(filename, encoding='utf-8'):
         True
     """
     attrs = {}
+
     if filename == '__init__.py':
         attrs['__title__'] = p.basename(p.dirname(filename))
     else:
         attrs['__title__'] = p.splitext(p.basename(filename))[0]
+
     with open(filename, encoding=encoding) as f:
         attrs.update(_get_attrs(f))
 
