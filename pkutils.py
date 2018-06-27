@@ -235,7 +235,7 @@ def parse_module(filename, encoding='utf-8'):
         (obj): An object whose attributes are accessible in a dict like manner.
 
     Examples:
-        >>> import os
+        >>> from os import path as p
         >>> from tempfile import NamedTemporaryFile
         >>>
         >>> text = (
@@ -248,7 +248,7 @@ def parse_module(filename, encoding='utf-8'):
         ...     bool(f.seek(0) or True)
         ...     module = parse_module(f.name)
         ...     module.__version__ == '0.12.4'
-        ...     module.__title__ == os.path.splitext(os.path.basename(f.name))[0]
+        ...     module.__title__ == p.splitext(p.basename(f.name))[0]
         ...     module.__email__ == module['__email__'] == 'reubano@gmail.com'
         ...     module.missing == module.get('missing') == None
         True
