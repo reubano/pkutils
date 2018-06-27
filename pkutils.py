@@ -34,9 +34,8 @@ from functools import total_ordering
 
 import semver
 
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
-__title__ = 'pkutils'
 __author__ = 'Reuben Cummings'
 __description__ = 'Python packaging utility library'
 __email__ = 'reubano@gmail.com'
@@ -44,9 +43,29 @@ __license__ = 'MIT'
 __copyright__ = 'Copyright 2015 Reuben Cummings'
 
 LICENSES = {
-    'GPL': 'License :: OSI Approved :: GNU General Public License (GPL)',
-    'MIT': 'License :: OSI Approved :: MIT License',
-    'BSD': 'License :: OSI Approved :: BSD License',
+    'GPL': 'GNU General Public License (GPL)',
+    'GPLv2': 'GNU General Public License v2 (GPLv2)',
+    'GPLv2+': 'GNU General Public License v2 or later (GPLv2+)',
+    'GPLv3': 'GNU General Public License v3 (GPLv3)',
+    'GPLv3+': 'GNU General Public License v3 or later (GPLv3+)',
+    'LGPL': 'GNU Library or Lesser General Public License (LGPL)',
+    'LGPLv2': 'GNU Lesser General Public License v2 (LGPLv2)',
+    'LGPLv2+': 'GNU Lesser General Public License v2 or later (LGPLv2+)',
+    'LGPLv3': 'GNU Lesser General Public License v3 (LGPLv3)',
+    'LGPLv3+': 'GNU Lesser General Public License v3 or later (LGPLv3+)',
+    'MIT': 'MIT License',
+    'BSD': 'BSD License',
+    'Apache': 'Apache Software License',
+    'ASL': 'Apache Software License',
+    'AGPL': 'GNU Affero General Public License v3',
+    'AGPLv3': 'GNU Affero General Public License v3',
+    'AGPLv3+': 'GNU Affero General Public License v3 or later (AGPLv3+)',
+    'MPL': 'Mozilla Public License 1.1 (MPL 2.0)',
+    'MPLv1': 'Mozilla Public License 1.1 (MPL 1.1)',
+    'MPLv1.1': 'Mozilla Public License 1.1 (MPL 1.1)',
+    'MPLv1.0': 'Mozilla Public License 1.0 (MPL)',
+    'MPLv2': 'Mozilla Public License 2.0 (MPL 2.0)',
+    'MPLv2.0': 'Mozilla Public License 2.0 (MPL 2.0)',
 }
 
 STATUSES = [
@@ -149,6 +168,48 @@ def get_status(version, breaks=None):
     return STATUSES[bisect(breakpoints, Version(version))]
 
 
+def get_user(email):
+    """Gets the user name from an email.
+
+    Args:
+        email (str): An email address.
+
+    Returns:
+        str: The user name
+
+    Examples:
+        >>> get_user('reubano@gmail.com') == 'reubano'
+        True
+    """
+    return email.split('@')[0].split('.')[0]
+
+
+def get_license(license):
+    """Gets the official license name.
+
+    Args:
+        license (str): The common license name.
+
+    Returns:
+        str: The official license name
+
+    Examples:
+        >>> get_license('MIT') == 'License :: OSI Approved :: MIT License'
+        True
+        >>> GPL = 'License :: OSI Approved :: GNU General Public License (GPL)'
+        >>> get_license('GPL') == GPL
+        True
+    """
+    if license == 'public':
+        official = 'License :: Public Domain'
+    elif license in LICENSES:
+        official = 'License :: OSI Approved :: {}'.format(LICENSES[license])
+    else:
+        raise KeyError('{} not in {}'.format(license, tuple(LICENSES)))
+
+    return official
+
+
 def get_url(project, user, base='https://github.com'):
     """Gets the repo download url.
 
@@ -236,19 +297,21 @@ def parse_module(filename, encoding='utf-8'):
         (obj): An object whose attributes are accessible in a dict like manner.
 
     Examples:
+        >>> from os import path as p
         >>> from tempfile import NamedTemporaryFile
         >>>
         >>> text = (
-        ...     "from os import path as p\\n__version__ = '0.12.4'\\n"
-        ...     "__title__ = 'pkutils'\\n__author__ = 'Reuben Cummings'\\n"
-        ...     "__email__ = 'reubano@gmail.com'\\n__license__ = 'MIT'\\n")
+        ...     "__version__ = '0.12.4'\\n"
+        ...     "__author__ = 'Reuben Cummings'\\n"
+        ...     "__email__ = 'reubano@gmail.com'\\n"
+        ...     "__license__ = 'MIT'\\n")
         >>>
-        >>> with NamedTemporaryFile() as f:
+        >>> with NamedTemporaryFile(suffix='.py') as f:
         ...     bool(f.write(text.encode('utf-8')) or True)
         ...     bool(f.seek(0) or True)
         ...     module = parse_module(f.name)
         ...     module.__version__ == '0.12.4'
-        ...     module.__title__ == module.get('__title__') == 'pkutils'
+        ...     module.__title__ == p.splitext(p.basename(f.name))[0]
         ...     module.__email__ == module['__email__'] == 'reubano@gmail.com'
         ...     module.missing == module.get('missing') == None
         True
@@ -258,8 +321,15 @@ def parse_module(filename, encoding='utf-8'):
         True
         True
     """
+    attrs = {}
+
+    if filename == '__init__.py':
+        attrs['__title__'] = p.basename(p.dirname(filename))
+    else:
+        attrs['__title__'] = p.splitext(p.basename(filename))[0]
+
     with open(filename, encoding=encoding) as f:
-        attrs = dict(_get_attrs(f))
+        attrs.update(_get_attrs(f))
 
     return Dictlike(attrs)
 

@@ -6,6 +6,7 @@ from __future__ import absolute_import, division, print_function
 import sys
 
 from io import open
+import os.path
 
 try:
     from setuptools import setup
@@ -25,6 +26,8 @@ def read(filename):
 
 
 def parse_module(filename):
+    yield ('__title__', os.path.splitext(filename)[0])
+
     with open(filename, encoding='utf-8') as f:
         for line in f:
             if line.startswith('__'):

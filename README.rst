@@ -64,12 +64,18 @@ pkutils is intended to be used directly as a Python library.
 
     __version__ = '0.5.4'
 
-    __title__ = 'my_package'
     __author__ = 'Reuben Cummings'
     __description__ = 'My super awesome great package'
     __email__ = 'reubano@gmail.com'
     __license__ = 'MIT'
     __copyright__ = 'Copyright 2015 Reuben Cummings'
+
+You can ``__title__`` explicitly in your Python file.  If you leave
+``__title__`` unset, pkutils will use:
+
+* The parent directory for paths ending in ``__init__.py``.
+* The filename before the extention for other paths
+  (e.g. ``my_package`` for ``my_package.py``).
 
 ``setup.py``
 
@@ -89,7 +95,8 @@ pkutils is intended to be used directly as a Python library.
     module = pkutils.parse_module('my_package/__init__.py')
     version = module.__version__
     project = module.__title__
-    user = 'reubano'
+    email = module.__email__
+    user = pkutils.get_user(email)
 
     setup(
         name=project,
@@ -97,7 +104,7 @@ pkutils is intended to be used directly as a Python library.
         description=module.__description__,
         long_description=readme,
         author=module.__author__,
-        author_email=module.__email__,
+        author_email=email,
         install_requires=requirements,
         tests_require=dev_requirements,
         dependency_links=dependencies,
@@ -105,7 +112,7 @@ pkutils is intended to be used directly as a Python library.
         url=pkutils.get_url(project, user),
         download_url=pkutils.get_dl_url(project, user, version),
         classifiers=[
-            pkutils.LICENSES['MIT'],
+            pkutils.get_license(module.__license__),
             pkutils.get_status(version),
             ...
         ],
