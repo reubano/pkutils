@@ -148,6 +148,48 @@ def get_status(version, breaks=None):
     return STATUSES[bisect(breakpoints, Version(version))]
 
 
+def get_user(email):
+    """Gets the user name from an email.
+
+    Args:
+        email (str): An email address.
+
+    Returns:
+        str: The user name
+
+    Examples:
+        >>> get_user('reubano@gmail.com') == 'reubano'
+        True
+    """
+    return email.split('@')[0].split('.')[0]
+
+
+def get_license(license):
+    """Gets the official license name.
+
+    Args:
+        license (str): The common license name.
+
+    Returns:
+        str: The official license name
+
+    Examples:
+        >>> get_license('MIT') == 'License :: OSI Approved :: MIT License'
+        True
+        >>> GPL = 'License :: OSI Approved :: GNU General Public License (GPL)'
+        >>> get_license('GPL') == GPL
+        True
+    """
+    if license == 'public':
+        official = 'License :: Public Domain'
+    elif license in LICENSES:
+        official = 'License :: OSI Approved :: {}'.format(LICENSES[license])
+    else:
+        raise KeyError('{} not in {}'.format(license, tuple(LICENSES)))
+
+    return official
+
+
 def get_url(project, user, base='https://github.com'):
     """Gets the repo download url.
 
