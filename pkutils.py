@@ -43,9 +43,29 @@ __license__ = 'MIT'
 __copyright__ = 'Copyright 2015 Reuben Cummings'
 
 LICENSES = {
-    'GPL': 'License :: OSI Approved :: GNU General Public License (GPL)',
-    'MIT': 'License :: OSI Approved :: MIT License',
-    'BSD': 'License :: OSI Approved :: BSD License',
+    'GPL': 'GNU General Public License (GPL)',
+    'GPLv2': 'GNU General Public License v2 (GPLv2)',
+    'GPLv2+': 'GNU General Public License v2 or later (GPLv2+)',
+    'GPLv3': 'GNU General Public License v3 (GPLv3)',
+    'GPLv3+': 'GNU General Public License v3 or later (GPLv3+)',
+    'LGPL': 'GNU Library or Lesser General Public License (LGPL)',
+    'LGPLv2': 'GNU Lesser General Public License v2 (LGPLv2)',
+    'LGPLv2+': 'GNU Lesser General Public License v2 or later (LGPLv2+)',
+    'LGPLv3': 'GNU Lesser General Public License v3 (LGPLv3)',
+    'LGPLv3+': 'GNU Lesser General Public License v3 or later (LGPLv3+)',
+    'MIT': 'MIT License',
+    'BSD': 'BSD License',
+    'Apache': 'Apache Software License',
+    'ASL': 'Apache Software License',
+    'AGPL': 'GNU Affero General Public License v3',
+    'AGPLv3': 'GNU Affero General Public License v3',
+    'AGPLv3+': 'GNU Affero General Public License v3 or later (AGPLv3+)',
+    'MPL': 'Mozilla Public License 1.1 (MPL 2.0)',
+    'MPLv1': 'Mozilla Public License 1.1 (MPL 1.1)',
+    'MPLv1.1': 'Mozilla Public License 1.1 (MPL 1.1)',
+    'MPLv1.0': 'Mozilla Public License 1.0 (MPL)',
+    'MPLv2': 'Mozilla Public License 2.0 (MPL 2.0)',
+    'MPLv2.0': 'Mozilla Public License 2.0 (MPL 2.0)',
 }
 
 STATUSES = [
