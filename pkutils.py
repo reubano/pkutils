@@ -239,9 +239,10 @@ def parse_module(filename, encoding='utf-8'):
         >>> from tempfile import NamedTemporaryFile
         >>>
         >>> text = (
-        ...     "from os import path as p\\n__version__ = '0.12.4'\\n"
+        ...     "__version__ = '0.12.4'\\n"
         ...     "__author__ = 'Reuben Cummings'\\n"
-        ...     "__email__ = 'reubano@gmail.com'\\n__license__ = 'MIT'\\n")
+        ...     "__email__ = 'reubano@gmail.com'\\n"
+        ...     "__license__ = 'MIT'\\n")
         >>>
         >>> with NamedTemporaryFile(suffix='.py') as f:
         ...     bool(f.write(text.encode('utf-8')) or True)
