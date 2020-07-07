@@ -70,7 +70,7 @@ pkutils is intended to be used directly as a Python library.
     __license__ = 'MIT'
     __copyright__ = 'Copyright 2015 Reuben Cummings'
 
-You can ``__title__`` explicitly in your Python file.  If you leave
+You can set ``__title__`` explicitly in your Python file.  If you leave
 ``__title__`` unset, pkutils will use:
 
 * The parent directory for paths ending in ``__init__.py``.
@@ -149,7 +149,7 @@ This is then converted into something like the following:
 Installation
 ------------
 
-(You are using a `virtualenv`_, right?) [#]_
+(You are using a `virtualenv`_, right?)
 
 At the command line, install pkutils using either ``pip`` (*recommended*)
 
