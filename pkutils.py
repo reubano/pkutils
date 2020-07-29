@@ -34,7 +34,7 @@ from functools import total_ordering
 
 import semver
 
-__version__ = '1.1.1'
+__version__ = '1.2.0'
 
 __author__ = 'Reuben Cummings'
 __description__ = 'Python packaging utility library'
@@ -140,7 +140,7 @@ class Version(object):
     def __str__(self):
         return self.value
 
-    def __hash__(self, other):
+    def __hash__(self):
         return hash(self.value)
 
     def __repr__(self):
@@ -346,7 +346,7 @@ def parse_requirements(filename, dep=False, encoding='utf-8'):
 
     Examples:
         >>> next(parse_requirements('dev-requirements.txt')) == (
-        ...     'flake8>=2.5.1,<3.0.0')
+        ...     'flake8>=3.7.9,<4.0.0')
         True
     """
     with open(filename, encoding=encoding) as f:
