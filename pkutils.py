@@ -31,53 +31,54 @@ from functools import total_ordering
 
 import semver
 
-__version__ = '2.0.0'
+__version__ = "2.0.0"
 
-__author__ = 'Reuben Cummings'
-__description__ = 'Python packaging utility library'
-__email__ = 'reubano@gmail.com'
-__license__ = 'MIT'
-__copyright__ = 'Copyright 2015 Reuben Cummings'
+__author__ = "Reuben Cummings"
+__description__ = "Python packaging utility library"
+__email__ = "reubano@gmail.com"
+__license__ = "MIT"
+__copyright__ = "Copyright 2015 Reuben Cummings"
 
 LICENSES = {
-    'GPL': 'GNU General Public License (GPL)',
-    'GPLv2': 'GNU General Public License v2 (GPLv2)',
-    'GPLv2+': 'GNU General Public License v2 or later (GPLv2+)',
-    'GPLv3': 'GNU General Public License v3 (GPLv3)',
-    'GPLv3+': 'GNU General Public License v3 or later (GPLv3+)',
-    'LGPL': 'GNU Library or Lesser General Public License (LGPL)',
-    'LGPLv2': 'GNU Lesser General Public License v2 (LGPLv2)',
-    'LGPLv2+': 'GNU Lesser General Public License v2 or later (LGPLv2+)',
-    'LGPLv3': 'GNU Lesser General Public License v3 (LGPLv3)',
-    'LGPLv3+': 'GNU Lesser General Public License v3 or later (LGPLv3+)',
-    'MIT': 'MIT License',
-    'BSD': 'BSD License',
-    'Apache': 'Apache Software License',
-    'ASL': 'Apache Software License',
-    'AGPL': 'GNU Affero General Public License v3',
-    'AGPLv3': 'GNU Affero General Public License v3',
-    'AGPLv3+': 'GNU Affero General Public License v3 or later (AGPLv3+)',
-    'MPL': 'Mozilla Public License 1.1 (MPL 2.0)',
-    'MPLv1': 'Mozilla Public License 1.1 (MPL 1.1)',
-    'MPLv1.1': 'Mozilla Public License 1.1 (MPL 1.1)',
-    'MPLv1.0': 'Mozilla Public License 1.0 (MPL)',
-    'MPLv2': 'Mozilla Public License 2.0 (MPL 2.0)',
-    'MPLv2.0': 'Mozilla Public License 2.0 (MPL 2.0)',
+    "GPL": "GNU General Public License (GPL)",
+    "GPLv2": "GNU General Public License v2 (GPLv2)",
+    "GPLv2+": "GNU General Public License v2 or later (GPLv2+)",
+    "GPLv3": "GNU General Public License v3 (GPLv3)",
+    "GPLv3+": "GNU General Public License v3 or later (GPLv3+)",
+    "LGPL": "GNU Library or Lesser General Public License (LGPL)",
+    "LGPLv2": "GNU Lesser General Public License v2 (LGPLv2)",
+    "LGPLv2+": "GNU Lesser General Public License v2 or later (LGPLv2+)",
+    "LGPLv3": "GNU Lesser General Public License v3 (LGPLv3)",
+    "LGPLv3+": "GNU Lesser General Public License v3 or later (LGPLv3+)",
+    "MIT": "MIT License",
+    "BSD": "BSD License",
+    "Apache": "Apache Software License",
+    "ASL": "Apache Software License",
+    "AGPL": "GNU Affero General Public License v3",
+    "AGPLv3": "GNU Affero General Public License v3",
+    "AGPLv3+": "GNU Affero General Public License v3 or later (AGPLv3+)",
+    "MPL": "Mozilla Public License 1.1 (MPL 2.0)",
+    "MPLv1": "Mozilla Public License 1.1 (MPL 1.1)",
+    "MPLv1.1": "Mozilla Public License 1.1 (MPL 1.1)",
+    "MPLv1.0": "Mozilla Public License 1.0 (MPL)",
+    "MPLv2": "Mozilla Public License 2.0 (MPL 2.0)",
+    "MPLv2.0": "Mozilla Public License 2.0 (MPL 2.0)",
 }
 
 STATUSES = [
-    'Development Status :: 2 - Pre-Alpha',
-    'Development Status :: 3 - Alpha',
-    'Development Status :: 4 - Beta',
-    'Development Status :: 5 - Production/Stable',
-    'Development Status :: 6 - Mature']
+    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 6 - Mature",
+]
 
 
 class Dictlike(object):
-    """Creates an object whose attributes are accessible in a dict like manner.
-    """
+    """Creates an object whose attributes are accessible in a dict like manner."""
+
     def __init__(self, data):
-        """ Dictlike constructor
+        """Dictlike constructor
 
         Args:
             data (dict): The attributes to set
@@ -125,6 +126,7 @@ class Version(object):
         >>> v2 > v1
         True
     """
+
     def __init__(self, value):
         self.value = value
 
@@ -141,7 +143,7 @@ class Version(object):
         return hash(self.value)
 
     def __repr__(self):
-        return '<Version %s>' % self.value
+        return "<Version %s>" % self.value
 
 
 def get_status(version, breaks=None):
@@ -160,7 +162,7 @@ def get_status(version, breaks=None):
         >>> get_status('0.9.0') == 'Development Status :: 3 - Alpha'
         True
     """
-    def_breaks = ('0.5.0', '0.10.0', '1.0.0', '2.0.0')
+    def_breaks = ("0.5.0", "0.10.0", "1.0.0", "2.0.0")
     breakpoints = [Version(b) for b in breaks or def_breaks]
     return STATUSES[bisect(breakpoints, Version(version))]
 
@@ -178,7 +180,7 @@ def get_user(email):
         >>> get_user('reubano@gmail.com') == 'reubano'
         True
     """
-    return email.split('@')[0].split('.')[0]
+    return email.split("@")[0].split(".")[0]
 
 
 def get_license(license):
@@ -197,17 +199,17 @@ def get_license(license):
         >>> get_license('GPL') == GPL
         True
     """
-    if license == 'public':
-        official = 'License :: Public Domain'
+    if license == "public":
+        official = "License :: Public Domain"
     elif license in LICENSES:
-        official = 'License :: OSI Approved :: {}'.format(LICENSES[license])
+        official = "License :: OSI Approved :: {}".format(LICENSES[license])
     else:
-        raise KeyError('{} not in {}'.format(license, tuple(LICENSES)))
+        raise KeyError("{} not in {}".format(license, tuple(LICENSES)))
 
     return official
 
 
-def get_url(project, user, base='https://github.com'):
+def get_url(project, user, base="https://github.com"):
     """Gets the repo download url.
 
     Args:
@@ -222,10 +224,10 @@ def get_url(project, user, base='https://github.com'):
         ...     'https://github.com/reubano/pkutils')
         True
     """
-    return '%s/%s/%s' % (base, user, project)
+    return "%s/%s/%s" % (base, user, project)
 
 
-def get_dl_url(project, user, version, base='https://github.com', ext='tar.gz'):
+def get_dl_url(project, user, version, base="https://github.com", ext="tar.gz"):
     """Gets the package download url.
 
     Args:
@@ -242,10 +244,10 @@ def get_dl_url(project, user, version, base='https://github.com', ext='tar.gz'):
         ...     'https://github.com/reubano/pkutils/archive/v0.3.0.tar.gz')
         True
     """
-    return '%s/%s/%s/archive/v%s.%s' % (base, user, project, version, ext)
+    return "%s/%s/%s/archive/v%s.%s" % (base, user, project, version, ext)
 
 
-def read(filename, encoding='utf-8'):
+def read(filename, encoding="utf-8"):
     """Reads a file.
 
     Args:
@@ -278,12 +280,12 @@ def _get_attrs(f):
         True
     """
     for line in f:
-        if line.startswith('__'):
-            splits = line.split('=')
+        if line.startswith("__"):
+            splits = line.split("=")
             yield tuple(s.strip().strip("'").strip('"') for s in splits)
 
 
-def parse_module(filename, encoding='utf-8'):
+def parse_module(filename, encoding="utf-8"):
     """Parses a module file and exposes any double underscored variables as
     object attributes.
 
@@ -320,10 +322,10 @@ def parse_module(filename, encoding='utf-8'):
     """
     attrs = {}
 
-    if filename == '__init__.py':
-        attrs['__title__'] = p.basename(p.dirname(filename))
+    if filename == "__init__.py":
+        attrs["__title__"] = p.basename(p.dirname(filename))
     else:
-        attrs['__title__'] = p.splitext(p.basename(filename))[0]
+        attrs["__title__"] = p.splitext(p.basename(filename))[0]
 
     with open(filename, encoding=encoding) as f:
         attrs.update(_get_attrs(f))
@@ -331,7 +333,7 @@ def parse_module(filename, encoding='utf-8'):
     return Dictlike(attrs)
 
 
-def parse_requirements(filename, dep=False, encoding='utf-8'):
+def parse_requirements(filename, dep=False, encoding="utf-8"):
     """Iteratively parses requirements files. Handles `-r` and `-e` options.
 
     Args:
@@ -343,22 +345,22 @@ def parse_requirements(filename, dep=False, encoding='utf-8'):
 
     Examples:
         >>> next(parse_requirements('dev-requirements.txt')) == (
-        ...     'flake8>=3.7.9,<4.0.0')
+        ...     'flake8>=3.7.9,<5.0.0')
         True
     """
     with open(filename, encoding=encoding) as f:
         for line in f:
             candidate = line.strip()
 
-            if candidate.startswith('-r'):
+            if candidate.startswith("-r"):
                 parent = p.dirname(filename)
                 new_filename = p.join(parent, candidate[2:].strip())
 
                 for item in parse_requirements(new_filename, dep):
                     yield item
-            elif not dep and '#egg=' in candidate:
-                yield re.sub('.*#egg=(.*)-(.*)', r'\1==\2', candidate)
-            elif dep and '#egg=' in candidate:
-                yield candidate.replace('-e ', '')
+            elif not dep and "#egg=" in candidate:
+                yield re.sub(".*#egg=(.*)-(.*)", r"\1==\2", candidate)
+            elif dep and "#egg=" in candidate:
+                yield candidate.replace("-e ", "")
             elif not dep:
                 yield candidate

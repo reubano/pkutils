@@ -5,71 +5,81 @@
 """ A script to manage development tasks """
 
 from os import path as p
+from sys import exit
 from subprocess import call, check_call, CalledProcessError
 from manager import Manager
 
 manager = Manager()
 BASEDIR = p.dirname(__file__)
+DEF_WHERE = ["pkutils.py", "setup.py", "manage.py"]
 
 
 def _upload():
     """Upload distribution files"""
-    command = 'twine upload --repository-url https://upload.pypi.org/legacy/ {0}'
-    check_call(command.format(p.join(BASEDIR, 'dist', '*')), shell=True)
+    command = "twine upload --repository-url https://upload.pypi.org/legacy/ {0}"
+    check_call(command.format(p.join(BASEDIR, "dist", "*")), shell=True)
 
 
 def _sdist():
     """Create a source distribution package"""
-    check_call(p.join(BASEDIR, 'helpers', 'srcdist'))
+    check_call(p.join(BASEDIR, "helpers", "srcdist"))
 
 
 def _wheel():
     """Create a wheel package"""
-    check_call(p.join(BASEDIR, 'helpers', 'wheel'))
+    check_call(p.join(BASEDIR, "helpers", "wheel"))
 
 
 def _clean():
     """Remove Python file and build artifacts"""
-    check_call(p.join(BASEDIR, 'helpers', 'clean'))
+    check_call(p.join(BASEDIR, "helpers", "clean"))
 
 
 @manager.command
 def check():
     """Check staged changes for lint errors"""
-    exit(call(p.join(BASEDIR, 'helpers', 'check-stage')))
+    exit(call(p.join(BASEDIR, "helpers", "check-stage")))
 
 
-@manager.arg('where', 'w', help='Modules to check')
-@manager.arg('strict', 's', help='Check with pylint')
-@manager.arg('compatibility', 'c', help='Check with pylint porting checker')
+@manager.arg("where", "w", help="Modules to check")
 @manager.command
-def lint(where="", strict=False, compatibility=False):
-    """Check style with linters"""
-    _where = f"pkutils.py setup.py {where}"
-    command = f"pylint --rcfile=tests/standard.rc -rn -fparseable {_where}"
+def prettify(where=None):
+    """Prettify code with black"""
+    extra = where.split(" ") if where else DEF_WHERE
 
     try:
-        check_call(f"flake8 {_where}", shell=True)
+        check_call(["black"] + extra)
+    except CalledProcessError as err:
+        exit(err.returncode)
 
+
+@manager.arg("where", "w", help="Modules to check")
+@manager.arg("strict", "s", help="Check with pylint")
+@manager.command
+def lint(where=None, strict=False):
+    """Check style with linters"""
+    extra = where.split(" ") if where else DEF_WHERE
+    args = ["pylint", "--rcfile=tests/pylintrc", "-rn", "-fparseable"]
+
+    try:
         if strict:
-            check_call(command, shell=True)
-
-        if compatibility:
-            check_call(f"{command} --py3k", shell=True)
-    except CalledProcessError as e:
-        exit(e.returncode)
+            check_call(args + extra)
+        else:
+            check_call(["flake8"] + extra)
+    except CalledProcessError as err:
+        exit(err.returncode)
 
 
 @manager.command
 def pipme():
     """Install requirements.txt"""
-    exit(call('pip install -r requirements.txt'.split(' ')))
+    exit(call("pip install -r requirements.txt".split(" ")))
 
 
 @manager.command
 def require():
     """Create requirements.txt"""
-    cmd = 'pip freeze -l | grep -vxFf dev-requirements.txt > requirements.txt'
+    cmd = "pip freeze -l | grep -vxFf dev-requirements.txt > requirements.txt"
     exit(call(cmd, shell=True))
 
 
@@ -106,14 +116,14 @@ def test(where=None, stop=None, **kwargs):
             check_call("detox")
         else:
             check_call(("nosetests %s" % opts).split(" "))
-    except CalledProcessError as e:
-        exit(e.returncode)
+    except CalledProcessError as err:
+        exit(err.returncode)
 
 
 @manager.command
 def register():
     """Register package with PyPI"""
-    exit(call('python %s register' % p.join(BASEDIR, 'setup.py'), shell=True))
+    exit(call("python %s register" % p.join(BASEDIR, "setup.py"), shell=True))
 
 
 @manager.command
@@ -124,8 +134,8 @@ def release():
         _sdist()
         _wheel()
         _upload()
-    except CalledProcessError as e:
-        exit(e.returncode)
+    except CalledProcessError as err:
+        exit(err.returncode)
 
 
 @manager.command
@@ -135,8 +145,8 @@ def build():
         _clean()
         _sdist()
         _wheel()
-    except CalledProcessError as e:
-        exit(e.returncode)
+    except CalledProcessError as err:
+        exit(err.returncode)
 
 
 @manager.command
@@ -144,8 +154,8 @@ def upload():
     """Upload distribution files"""
     try:
         _upload()
-    except CalledProcessError as e:
-        exit(e.returncode)
+    except CalledProcessError as err:
+        exit(err.returncode)
 
 
 @manager.command
@@ -153,8 +163,8 @@ def sdist():
     """Create a source distribution package"""
     try:
         _sdist()
-    except CalledProcessError as e:
-        exit(e.returncode)
+    except CalledProcessError as err:
+        exit(err.returncode)
 
 
 @manager.command
@@ -162,8 +172,8 @@ def wheel():
     """Create a wheel package"""
     try:
         _wheel()
-    except CalledProcessError as e:
-        exit(e.returncode)
+    except CalledProcessError as err:
+        exit(err.returncode)
 
 
 @manager.command
@@ -171,14 +181,15 @@ def clean():
     """Remove Python file and build artifacts"""
     try:
         _clean()
-    except CalledProcessError as e:
-        exit(e.returncode)
+    except CalledProcessError as err:
+        exit(err.returncode)
 
 
 @manager.command
 def docs():
     """Generate Sphinx HTML documentation, including API docs"""
-    exit(call(p.join(BASEDIR, 'helpers', 'docs')))
+    exit(call(p.join(BASEDIR, "helpers", "docs")))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     manager.main()
