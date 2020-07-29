@@ -4,9 +4,6 @@
 
 """ A script to manage development tasks """
 
-from __future__ import (
-    absolute_import, division, print_function, unicode_literals)
-
 from os import path as p
 from subprocess import call, check_call, CalledProcessError
 from manager import Manager
@@ -44,15 +41,21 @@ def check():
 
 @manager.arg('where', 'w', help='Modules to check')
 @manager.arg('strict', 's', help='Check with pylint')
+@manager.arg('compatibility', 'c', help='Check with pylint porting checker')
 @manager.command
-def lint(where=None, strict=False):
+def lint(where="", strict=False, compatibility=False):
     """Check style with linters"""
-    args = 'pylint --rcfile=tests/standard.rc -rn -fparseable pkutils.py'
+    _where = f"pkutils.py setup.py {where}"
+    command = f"pylint --rcfile=tests/standard.rc -rn -fparseable {_where}"
 
     try:
-        check_call(['flake8', where or 'pkutils.py'])
-        check_call(args.split(' ') + ['--py3k'])
-        check_call(args.split(' ')) if strict else None
+        check_call(f"flake8 {_where}", shell=True)
+
+        if strict:
+            check_call(command, shell=True)
+
+        if compatibility:
+            check_call(f"{command} --py3k", shell=True)
     except CalledProcessError as e:
         exit(e.returncode)
 

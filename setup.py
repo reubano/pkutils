@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division, print_function
-
 import sys
 
 from io import open
@@ -33,6 +31,7 @@ def parse_module(filename):
             if line.startswith('__'):
                 splits = line.split('=')
                 yield tuple(s.strip().strip("'").strip('"') for s in splits)
+
 
 sys.dont_write_bytecode = True
 requirements = list(parse_requirements('requirements.txt'))
@@ -69,11 +68,10 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Development Status :: 5 - Production/Stable',
         'Natural Language :: English',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Intended Audience :: Developers',

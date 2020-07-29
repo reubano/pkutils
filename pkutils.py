@@ -22,9 +22,6 @@ Attributes:
     LICENSES (dict): available python license classifiers.
 """
 
-from __future__ import (
-    absolute_import, division, print_function, unicode_literals)
-
 import re
 
 from io import open
