@@ -346,7 +346,7 @@ def parse_requirements(filename, dep=False, encoding='utf-8'):
 
     Examples:
         >>> next(parse_requirements('dev-requirements.txt')) == (
-        ...     'flake8>=2.5.1,<3.0.0')
+        ...     'flake8>=3.7.9,<4.0.0')
         True
     """
     with open(filename, encoding=encoding) as f:
