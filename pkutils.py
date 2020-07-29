@@ -22,9 +22,6 @@ Attributes:
     LICENSES (dict): available python license classifiers.
 """
 
-from __future__ import (
-    absolute_import, division, print_function, unicode_literals)
-
 import re
 
 from io import open
@@ -34,7 +31,7 @@ from functools import total_ordering
 
 import semver
 
-__version__ = '1.2.0'
+__version__ = '2.0.0'
 
 __author__ = 'Reuben Cummings'
 __description__ = 'Python packaging utility library'
