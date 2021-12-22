@@ -73,16 +73,42 @@ def require():
     exit(call(cmd, shell=True))
 
 
-@manager.arg('where', 'w', help='test path', default=None)
+@manager.arg("where", "w", help="test path", default=None)
+@manager.arg("stop", "x", help="Stop after first error", type=bool, default=False)
+@manager.arg("failed", "f", help="Run failed tests", type=bool, default=False)
+@manager.arg("cover", "c", help="Add coverage report", type=bool, default=False)
+@manager.arg("tox", "t", help="Run tox tests", type=bool, default=False)
+@manager.arg("detox", "d", help="Run detox tests", type=bool, default=False)
+@manager.arg("verbose", "v", help="Use detailed errors", type=bool, default=False)
 @manager.arg(
-    'stop', 'x', help='Stop after first error', type=bool, default=False)
-@manager.arg('tox', 't', help='Run tox tests')
+    "parallel",
+    "p",
+    help="Run tests in parallel in multiple processes",
+    type=bool,
+    default=False,
+)
+@manager.arg("debug", "D", help="Use nose.loader debugger", type=bool, default=False)
 @manager.command
-def test(where=None, stop=False, tox=False):
-    """Run nose or tox tests"""
-    opts = '-xv' if stop else '-v'
-    opts += 'w %s' % where if where else ''
-    exit(call('tox' if tox else ('nosetests %s' % opts).split(' ')))
+def test(where=None, stop=None, **kwargs):
+    """Run nose, tox, and script tests"""
+    opts = "-xv" if stop else "-v"
+    opts += " --with-coverage" if kwargs.get("cover") else ""
+    opts += " --failed" if kwargs.get("failed") else " --with-id"
+    opts += " --processes=-1" if kwargs.get("parallel") else ""
+    opts += " --detailed-errors" if kwargs.get("verbose") else ""
+    opts += " --debug=nose.loader" if kwargs.get("debug") else ""
+    opts += " -w %s" % where if where else ""
+
+    try:
+        if kwargs.get("tox"):
+            check_call("tox")
+        elif kwargs.get("detox"):
+            check_call("detox")
+        else:
+            check_call(("nosetests %s" % opts).split(" "))
+            check_call(["python", p.join(BASEDIR, "tests", "test.py")])
+    except CalledProcessError as e:
+        exit(e.returncode)
 
 
 @manager.command
