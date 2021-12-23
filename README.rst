@@ -255,7 +255,7 @@ License
 pkutils is distributed under the `MIT License`_.
 
 .. |travis| image:: https://img.shields.io/travis/reubano/pkutils.svg
-    :target: https://travis-ci.org/reubano/pkutils
+    :target: https://app.travis-ci.com/github/reubano/pkutils
 
 .. |versions| image:: https://img.shields.io/pypi/pyversions/pkutils.svg
     :target: https://pypi.python.org/pypi/pkutils
