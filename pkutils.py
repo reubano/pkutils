@@ -31,7 +31,7 @@ from functools import total_ordering
 
 import semver
 
-__version__ = "2.1.0"
+__version__ = "2.1.1"
 
 __author__ = "Reuben Cummings"
 __description__ = "Python packaging utility library"
