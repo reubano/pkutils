@@ -1,15 +1,19 @@
 *.py[cod]
+*.DS_Store
+.cookiecutter
+.scripttest/*
+example*.log
 
 # C extensions
 *.so
 
 # Packages
 *.egg
+*.eggs
 *.egg-info
 dist
 build
 eggs
-.eggs
 parts
 var
 sdist
@@ -22,9 +26,15 @@ lib64
 pip-log.txt
 
 # Unit test / coverage reports
+htmlcov/*
 .coverage
 .tox
-nosetests.xml
+nose2.xml
+.noseids
+
+# Complexity
+output/*.html
+output/*/index.html
 
 # Translations
 *.mo
@@ -34,10 +44,5 @@ nosetests.xml
 .project
 .pydevproject
 
-# Complexity
-output/*.html
-output/*/index.html
-
 # Sphinx
 docs/_build
-.cookiecutter
