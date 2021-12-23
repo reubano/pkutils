@@ -24,7 +24,7 @@ With pkutils, you can
 Requirements
 ------------
 
-pkutils has been tested and is known to work on Python 3.6, 3.7, and 3.8; and PyPy3.6.
+pkutils has been tested and is known to work on Python 3.7, 3.8, and 3.9; and PyPy3.7.
 
 Motivation
 ----------
